@@ -43,14 +43,31 @@
             </div>
 
             <ul id="navMenu">
-                <li><a href="javascript:void(0)" onclick="showPage('bienvenido')">Bienvenido</a></li>
-                <li><a href="javascript:void(0)" onclick="showPage('inicio')">Inicio</a></li>
-                <li><a href="javascript:void(0)" onclick="showPage('menu')">Menú</a></li>
-                <li><a href="javascript:void(0)" onclick="showPage('productos')">Productos</a></li>
-                <li><a href="javascript:void(0)" onclick="showPage('nosotros')">Más</a></li>
+                <li><a onclick="showPage('bienvenido')">Bienvenido</a></li>
+                <li><a onclick="showPage('inicio')">Inicio</a></li>
+                <li><a onclick="showPage('menu')">Menú</a></li>
+                <li><a onclick="showPage('productos')">Productos</a></li>
+                <li><a onclick="showPage('nosotros')">Más</a></li>
+                
+                <!-- Elementos móviles en el menú -->
+                <li class="mobile-only">
+                    <div class="language-selector-mobile">
+                        <select id="languageSelectMobile" onchange="changeLanguage(this.value)">
+                            <option value="es">🇪🇸 Español</option>
+                            <option value="en">🇺🇸 English</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="mobile-only">
+                    <div class="search-container-mobile">
+                        <input type="text" id="searchInputMobile" placeholder="Buscar productos..." onkeyup="handleSearch(event)">
+                        <button class="search-btn" onclick="performSearch()">🔍</button>
+                    </div>
+                </li>
             </ul>
+            
             <div class="nav-right">
-                <!-- Language Selector -->
+                <!-- Language Selector - Siempre visible -->
                 <div class="language-selector">
                     <select id="languageSelect" onchange="changeLanguage(this.value)">
                         <option value="es">🇪🇸 ES</option>
@@ -58,7 +75,7 @@
                     </select>
                 </div>
                 
-                <!-- Search Bar -->
+                <!-- Search Bar - Siempre visible -->
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Buscar productos..." onkeyup="handleSearch(event)">
                     <button class="search-btn" onclick="performSearch()">🔍</button>
@@ -233,6 +250,26 @@
 
     <!-- PAGE: MENÚ -->
     <div id="page-menu" class="page-content hidden">
+        <!-- Search Bar Section -->
+        <section class="search-section">
+            <div class="search-info">
+                <div class="last-update">
+                    <span>Última actualización: <span id="lastUpdateDateMenu">15/01/2025</span></span>
+                </div>
+                <div class="search-main">
+                    <input type="text" id="mainSearchInputMenu" placeholder="Buscar café, bebidas, productos..." onkeyup="handleMainSearch(event)">
+                    <button class="search-main-btn" onclick="performMainSearch()">🔍 Buscar</button>
+                </div>
+                <div class="search-categories">
+                    <button class="category-btn active" onclick="filterByCategory('all')">Todos</button>
+                    <button class="category-btn" onclick="filterByCategory('coffee')">Café a Granel</button>
+                    <button class="category-btn" onclick="filterByCategory('drinks')">Bebidas</button>
+                </div>
+                <!-- Search Results Container -->
+                <div id="searchResultsMenu"></div>
+            </div>
+        </section>
+
         <div class="menu-section">
             <div class="menu-hero">
                 <h1>Nuestro Menú</h1>
@@ -241,7 +278,7 @@
             <div class="menu-content">
                 <div class="menu-category">
                     <h2>🧊 FRAPPES (Bebidas Frías)</h2>
-                    <div class="menu-content" id="menuItemsContainer">
+                    <div class="menu-items" id="menuFrappes"></div>
                 </div>
                 <div class="menu-category">
                     <h2>🔥 BEBIDAS CALIENTES</h2>
@@ -258,7 +295,27 @@
 
     <!-- PAGE: PRODUCTOS -->
     <div id="page-productos" class="page-content hidden">
-        <section style="padding: 6rem 3rem 4rem; background: white;">
+        <!-- Search Bar Section -->
+        <section class="search-section">
+            <div class="search-info">
+                <div class="last-update">
+                    <span>Última actualización: <span id="lastUpdateDateProductos">15/01/2025</span></span>
+                </div>
+                <div class="search-main">
+                    <input type="text" id="mainSearchInputProductos" placeholder="Buscar café, bebidas, productos..." onkeyup="handleMainSearch(event)">
+                    <button class="search-main-btn" onclick="performMainSearch()">🔍 Buscar</button>
+                </div>
+                <div class="search-categories">
+                    <button class="category-btn active" onclick="filterByCategory('all')">Todos</button>
+                    <button class="category-btn" onclick="filterByCategory('coffee')">Café a Granel</button>
+                    <button class="category-btn" onclick="filterByCategory('drinks')">Bebidas</button>
+                </div>
+                <!-- Search Results Container -->
+                <div id="searchResultsProductos"></div>
+            </div>
+        </section>
+
+        <section style="padding: 2rem 3rem 4rem; background: white;">
             <div style="max-width: 1400px; margin: 0 auto;">
                 <h2>Nuestros Productos</h2>
                 <div class="products-grid" id="productsGrid"></div>
@@ -268,7 +325,27 @@
 
     <!-- PAGE: NOSOTROS -->
     <div id="page-nosotros" class="page-content hidden">
-        <section class="about-section" style="min-height: calc(100vh - 80px); padding: 6rem 3rem;">
+        <!-- Search Bar Section -->
+        <section class="search-section">
+            <div class="search-info">
+                <div class="last-update">
+                    <span>Última actualización: <span id="lastUpdateDateNosotros">15/01/2025</span></span>
+                </div>
+                <div class="search-main">
+                    <input type="text" id="mainSearchInputNosotros" placeholder="Buscar café, bebidas, productos..." onkeyup="handleMainSearch(event)">
+                    <button class="search-main-btn" onclick="performMainSearch()">🔍 Buscar</button>
+                </div>
+                <div class="search-categories">
+                    <button class="category-btn active" onclick="filterByCategory('all')">Todos</button>
+                    <button class="category-btn" onclick="filterByCategory('coffee')">Café a Granel</button>
+                    <button class="category-btn" onclick="filterByCategory('drinks')">Bebidas</button>
+                </div>
+                <!-- Search Results Container -->
+                <div id="searchResultsNosotros"></div>
+            </div>
+        </section>
+
+        <section class="about-section" style="min-height: calc(100vh - 80px); padding: 2rem 3rem;">
             <div class="about-container">
                 <div class="about-content">
                     <h2>Acerca de Nosotros</h2>
