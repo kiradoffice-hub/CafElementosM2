@@ -3,7 +3,7 @@
    ============================================ */
 
 // ============================================
-// CONFIGURACIÓN EMAILJS (sin cambios)
+// CONFIGURACIÓN EMAILJS
 // ============================================
 // IMPORTANTE: Reemplaza estos valores con tus credenciales de EmailJS
 const EMAILJS_SERVICE_ID = 'service_ez74agp';  // Tu Service ID
@@ -11,9 +11,9 @@ const EMAILJS_TEMPLATE_ID = 'template_rv4qwdj'; // Tu Template ID
 const EMAILJS_PUBLIC_KEY = 'nb75RxYtqPNBOw3O2';   // Tu Public Key
 
 // ============================================
-// DATOS DE PRODUCTOS Y MENÚ (AÑADIENDO CATEGORÍA/KEYWORDS PARA BÚSQUEDA)
+// DATOS DE PRODUCTOS
 // ============================================
-const PRODUCT_IMAGE = 'https://scontent.fvsa2-1.fna.fbcdn.net/v/t39.30808-6/495601645_1198908208917618_4324142393229895495_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=LXQAJeKjCkkQ7kNvwFqblSH&_nc_oc=AdkL2rT9E5JKzvVmYsi5-gLaOLbuHT6JczBiQV2q7aCERwvnpKFL6Zr_pqRez0eVilI&_nc_zt=23&_nc_ht=scontent.fvsa2-1.fna&_nc_gid=HT-GbkexYubjTnC9fSSDrA&oh=00_AfiUM5WCTaSSWSi5eqGiH24eiM0wJkiRFN91bBvjT7juw&oe=6925534E';
+const PRODUCT_IMAGE = 'https://scontent.fvsa2-1.fna.fbcdn.net/v/t39.30808-6/495601645_1198908208917618_4324142393229895495_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=LXQAJeKjCkkQ7kNvwFqblSH&_nc_oc=AdkL2rT9E5JKzvVmYsi5-gLaOLbuHT6JczBiQV2q7aCERwvnpKFL6Zr_pqRez0eVilI&_nc_zt=23&_nc_ht=scontent.fvsa2-1.fna&_nc_gid=HT-GbkexYubjTnC9fSSDrA&oh=00_AfiUM5WCTaSSWSi5eqGiH24eiM0wJkiRFN91bYEvjT7juw&oe=6925534E';
 
 const products = [
     {
@@ -22,7 +22,7 @@ const products = [
         origin: 'Cafeología Natural',
         prices: { '1/4': 350, '1/2': 700, '1kg': 1400 },
         image: PRODUCT_IMAGE,
-        category: 'cafe-granel' // Categoría para búsqueda
+        category: 'coffee'
     },
     {
         id: 2,
@@ -30,7 +30,7 @@ const products = [
         origin: 'Lavado',
         prices: { '1/4': 120, '1/2': 240, '1kg': 480 },
         image: PRODUCT_IMAGE,
-        category: 'cafe-granel'
+        category: 'coffee'
     },
     {
         id: 3,
@@ -38,300 +38,60 @@ const products = [
         origin: 'Lavado',
         prices: { '1/4': 120, '1/2': 240, '1kg': 480 },
         image: PRODUCT_IMAGE,
-        category: 'cafe-granel'
+        category: 'coffee'
     }
 ];
 
+// ============================================
+// DATOS DEL MENÚ
+// ============================================
 const menuItems = {
     frappes: [
-        { id: 101, name: 'Frapuccino', price: 75, category: 'bebidas', keywords: 'frappe frapuccino moka' },
-        { id: 102, name: 'Cajeta', price: 75, category: 'bebidas', keywords: 'frappe cajeta dulce' },
-        { id: 103, name: 'Oreo', price: 75, category: 'bebidas', keywords: 'frappe oreo galleta' },
-        { id: 104, name: 'Moca', price: 75, category: 'bebidas', keywords: 'frappe moca chocolate' }
+        { id: 101, name: 'Frapuccino', price: 75, category: 'drinks', type: 'frappe' },
+        { id: 102, name: 'Cajeta', price: 75, category: 'drinks', type: 'frappe' },
+        { id: 103, name: 'Oreo', price: 75, category: 'drinks', type: 'frappe' },
+        { id: 104, name: 'Moca', price: 75, category: 'drinks', type: 'frappe' }
     ],
     hotCoffee: [
-        { id: 201, name: 'Espresso', prices: { 'Chico': 45, 'Grande': 48 }, category: 'bebidas', keywords: 'espresso cafe' },
-        { id: 202, name: 'Latte', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'latte cafe leche' },
-        { id: 203, name: 'Espresso cortado', price: 48, category: 'bebidas', keywords: 'cortado espresso cafe' },
-        { id: 204, name: 'Capuchino', price: 65, category: 'bebidas', keywords: 'capuchino cappuccino cafe leche espuma' },
-        { id: 205, name: 'Americano', price: 48, category: 'bebidas', keywords: 'americano cafe negro' },
-        { id: 206, name: 'Moca', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'moca cafe chocolate' },
-        { id: 207, name: 'Latte caramelo', price: 72, category: 'bebidas', keywords: 'latte caramelo cafe dulce' },
-        { id: 208, name: 'Choco-latte', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'chocolate caliente choco-latte' },
-        { id: 209, name: 'Chocolatada', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'chocolate caliente chocolatada' }
+        { id: 201, name: 'Espresso', prices: { 'Chico': 45, 'Grande': 48 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 202, name: 'Latte', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 203, name: 'Espresso cortado', price: 48, category: 'drinks', type: 'hot-coffee' },
+        { id: 204, name: 'Capuchino', price: 65, category: 'drinks', type: 'hot-coffee' },
+        { id: 205, name: 'Americano', price: 48, category: 'drinks', type: 'hot-coffee' },
+        { id: 206, name: 'Moca', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 207, name: 'Latte caramelo', price: 72, category: 'drinks', type: 'hot-coffee' },
+        { id: 208, name: 'Choco-latte', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 209, name: 'Chocolatada', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' }
     ],
     teas: [
-        { id: 301, name: 'Té Negro (Earl Grey)', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'te negro earl grey infusion' },
-        { id: 302, name: 'Té Negro Chai', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'te negro chai infusion especias' },
-        { id: 303, name: 'Té Verde Flamingo Limonada', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'te verde flamingo limonada infusion' },
-        { id: 304, name: 'Matcha', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'matcha te verde' },
-        { id: 305, name: 'Variedad de Tisanas', prices: { 'Chico': 68, 'Grande': 72 }, category: 'bebidas', keywords: 'tisana infusion frutas' }
+        { id: 301, name: 'Té Negro (Earl Grey)', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'tea' },
+        { id: 302, name: 'Té Negro Chai', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'tea' },
+        { id: 303, name: 'Té Verde Flamingo Limonada', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'tea' },
+        { id: 304, name: 'Matcha', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'tea' },
+        { id: 305, name: 'Variedad de Tisanas', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'tea' }
     ]
 };
 
-// Combinar todos los productos en una sola lista para la búsqueda
-const allSearchableItems = [
-    ...products.map(p => ({
-        id: `p-${p.id}`,
-        name: p.name,
-        price: p.prices['1/4'], 
-        category: 'cafe-granel',
-        keywords: `${p.name} ${p.origin} ${p.category} café grano a granel`.toLowerCase(),
-        type: 'product',
-        item: p
-    })),
-    ...Object.values(menuItems).flat().map(m => ({
-        id: `m-${m.id}`,
-        name: m.name,
-        price: m.price || Object.values(m.prices)[0],
-        category: 'bebidas',
-        keywords: `${m.name} ${m.keywords} ${m.category} bebida`.toLowerCase(),
-        type: 'menuItem',
-        item: m
-    }))
-];
-
 // ============================================
-// CONFIGURACIÓN DE IDIOMA
-// ============================================
-let currentLang = 'es'; // Estado global del idioma
-const translations = {
-    'es': {
-        'nav_bienvenido': 'Bienvenido', 'nav_inicio': 'Inicio', 'nav_menu': 'Menú', 
-        'nav_productos': 'Productos', 'nav_mas': 'Más', 'nav_principal': 'Principal',
-        'nav_privacy': 'Política de Privacidad', 'nav_accessibility': 'Declaración de Accesibilidad',
-        'nav_terms': 'Términos y Condiciones', 'nav_refund': 'Política de Reembolso', 'nav_shipping': 'Política de Envío',
-        'search_placeholder': 'Buscar café a granel o bebidas...',
-        'search_category_all': 'Todas las categorías', 'search_category_cafe': 'Café a granel', 'search_category_bebidas': 'Bebidas',
-        'last_update': 'Última actualización:', 'last_update_date': '20 de Noviembre, 2025',
-        'promo_title': '¡Promoción Especial!', 'promo_frappes': '2 Frappes por $120. ¡Solo esta semana!',
-        'promo_shipping': 'Envío GRATIS en compras de $300+ (zonas cercanas).',
-        'welcome_title': 'Bienvenido a Café Elementos', 'welcome_text': 'El lugar donde el café cobra vida. Nos dedicamos a ofrecer café de alta calidad con un toque especial que deleita tus sentidos. Descubre nuestra pasión por el café en cada taza que preparamos.',
-        'explore_btn': 'Explorar Nuestro Café',
-        'privacy_title': 'Política de Privacidad', 'privacy_text': 'Aviso Legal: En nuestra cafetería, nos tomamos muy en serio la privacidad y seguridad de la información de nuestros clientes. El contenido de este documento tiene como objetivo ofrecer una guía general sobre nuestras prácticas de recopilación, uso y protección de datos. Esta información no constituye asesoría legal, por lo que te recomendamos consultar a un especialista para elaborar una Política de Privacidad totalmente adaptada a tus necesidades y obligaciones legales.',
-    },
-    'en': {
-        'nav_bienvenido': 'Welcome', 'nav_inicio': 'Home', 'nav_menu': 'Menu', 
-        'nav_productos': 'Products', 'nav_mas': 'More', 'nav_principal': 'Main',
-        'nav_privacy': 'Privacy Policy', 'nav_accessibility': 'Accessibility Statement',
-        'nav_terms': 'Terms and Conditions', 'nav_refund': 'Refund Policy', 'nav_shipping': 'Shipping Policy',
-        'search_placeholder': 'Search bulk coffee or drinks...',
-        'search_category_all': 'All Categories', 'search_category_cafe': 'Bulk Coffee', 'search_category_bebidas': 'Drinks',
-        'last_update': 'Last Update:', 'last_update_date': 'November 20, 2025',
-        'promo_title': 'Special Promotion!', 'promo_frappes': '2 Frappes for $120. This week only!',
-        'promo_shipping': 'FREE Shipping on purchases of $300+ (nearby areas).',
-        'welcome_title': 'Welcome to Café Elementos', 'welcome_text': 'The place where coffee comes to life. We are dedicated to offering high-quality coffee with a special touch that delights your senses. Discover our passion for coffee in every cup we prepare.',
-        'explore_btn': 'Explore Our Coffee',
-        'privacy_title': 'Privacy Policy', 'privacy_text': 'Legal Notice: In our coffee shop, we take our customers\' privacy and security seriously. The content of this document is intended to offer a general guide on our data collection, use, and protection practices. This information does not constitute legal advice, so we recommend consulting a specialist to prepare a Privacy Policy fully adapted to your needs and legal obligations.',
-    }
-};
-
-function getText(key) {
-    return translations[currentLang][key] || key;
-}
-
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('cafeElementosLang', lang);
-    applyTranslations();
-    // Re-renderizar para asegurar que los precios y nombres en el carrito/tienda se actualicen
-    renderStoreProducts();
-    renderMenuItems();
-    renderCartItems(); 
-    updateCartTotal();
-}
-
-function applyTranslations() {
-    document.querySelectorAll('[data-lang-key]').forEach(el => {
-        const key = el.getAttribute('data-lang-key');
-        const text = getText(key);
-        if (el.tagName === 'INPUT' && el.type === 'email') {
-             el.placeholder = text;
-        } else if (el.tagName === 'INPUT' && el.type === 'text' && el.id === 'searchInput') {
-             el.placeholder = text;
-        } else if (el.tagName === 'OPTION') {
-             el.textContent = text;
-        } else {
-             el.textContent = text;
-        }
-    });
-}
-
-// ============================================
-// NAVEGACIÓN Y MENÚ MÓVIL
-// ============================================
-
-function toggleMobileMenu() {
-    const navList = document.querySelector('nav ul');
-    const menuToggle = document.querySelector('.menu-toggle');
-    if (navList && menuToggle) {
-        navList.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-    }
-}
-
-function showPage(pageName) {
-    const pages = document.querySelectorAll('.page-content');
-    pages.forEach(page => {
-        page.classList.add('hidden');
-    });
-
-    const targetPage = document.getElementById(`page-${pageName}`);
-    if (targetPage) {
-        targetPage.classList.remove('hidden');
-    }
-    
-    // Si la página es 'productos', asegura que la cuadrícula de productos normal esté visible inicialmente
-    if (pageName === 'productos') {
-        renderStoreProducts();
-        document.getElementById('searchResultsGrid')?.classList.add('hidden');
-        document.getElementById('storeProductsGrid')?.classList.remove('hidden');
-        document.getElementById('searchInput').value = ''; // Limpiar búsqueda
-    }
-    
-    // Cierra el menú móvil si está abierto
-    const mobileMenu = document.querySelector('nav ul');
-    const menuToggle = document.querySelector('.menu-toggle');
-    if (mobileMenu && mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-        menuToggle.classList.remove('active');
-    }
-}
-
-
-// ============================================
-// BÚSQUEDA DE PRODUCTOS
-// ============================================
-
-function handleSearchEnter(event) {
-    if (event.key === 'Enter') {
-        handleProductSearch();
-    }
-}
-
-function handleProductSearch() {
-    const query = document.getElementById('searchInput').value.toLowerCase().trim();
-    const category = document.getElementById('searchCategory').value;
-    const resultsContainer = document.getElementById('searchResultsGrid');
-    const productsGrid = document.getElementById('storeProductsGrid'); 
-
-    if (!query) {
-        // Si la búsqueda está vacía, mostrar la cuadrícula normal de la tienda
-        if (productsGrid) productsGrid.classList.remove('hidden');
-        if (resultsContainer) resultsContainer.classList.add('hidden');
-        return;
-    }
-    
-    // Ocultar la cuadrícula normal y mostrar el contenedor de resultados
-    if (productsGrid) productsGrid.classList.add('hidden');
-    if (resultsContainer) resultsContainer.classList.remove('hidden');
-
-    const filteredItems = allSearchableItems.filter(item => {
-        const matchesQuery = item.keywords.includes(query) || item.name.toLowerCase().includes(query);
-        const matchesCategory = category === 'all' || item.category === category;
-        return matchesQuery && matchesCategory;
-    });
-
-    if (resultsContainer) {
-        if (filteredItems.length === 0) {
-            resultsContainer.innerHTML = `<div class="empty-search">No se encontraron productos para "${query}" en la categoría seleccionada.</div>`;
-        } else {
-            // Mapear los resultados filtrados a tarjetas de producto/menú
-            resultsContainer.innerHTML = filteredItems.map(result => {
-                if (result.type === 'product') {
-                    return createStoreProductCard(result.item); 
-                } else if (result.type === 'menuItem') {
-                    return createMenuItemCardForSearch(result.item);
-                }
-            }).join('');
-        }
-    }
-}
-
-// Función de ayuda para crear tarjeta de menú en resultados de búsqueda
-function createMenuItemCardForSearch(item) {
-    const priceDisplay = item.price ? `$${item.price.toFixed(2)}` : (item.prices ? `$${Object.values(item.prices)[0].toFixed(2)} +` : 'Consultar');
-    const typeLabel = item.category === 'bebidas' ? getText('search_category_bebidas') : '';
-
-    return `
-        <div class="product-card">
-            <div class="product-image" style="background-color: #f0f0f0; border-radius: 8px 8px 0 0;">
-                <span style="font-size: 3rem;">☕</span>
-            </div>
-            <div class="product-info">
-                <span class="product-category">${typeLabel}</span>
-                <h3 class="product-name">${item.name}</h3>
-                <p class="product-price">${priceDisplay} MXN</p>
-                <button class="add-to-cart-btn" onclick="addMenuToCart(${item.id})">
-                    +
-                </button>
-            </div>
-        </div>
-    `;
-}
-
-// ============================================
-// PROMOCIONES (Temporizador)
-// ============================================
-function updatePromoTimer() {
-    const timerElement = document.getElementById('promoTimer');
-    if (!timerElement) return;
-
-    // Establecer la fecha de caducidad (ej: una semana a partir de ahora, o una fecha fija)
-    // Para simplificar, lo mantendremos como un contador de 7 días desde la carga
-    const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000;
-    const expiryDate = new Date().getTime() + ONE_WEEK_IN_MS;
-
-    // Función que se ejecuta cada segundo
-    const interval = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = expiryDate - now;
-
-        // Cálculos de tiempo
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Formatear la salida
-        const twoDigits = (num) => String(num).padStart(2, '0');
-
-        // Mostrar el resultado en el elemento
-        timerElement.innerHTML = `${twoDigits(days)}d ${twoDigits(hours)}h ${twoDigits(minutes)}m ${twoDigits(seconds)}s`;
-
-        // Si la cuenta atrás termina, escribir un texto
-        if (distance < 0) {
-            clearInterval(interval);
-            timerElement.innerHTML = "¡LA PROMOCIÓN HA TERMINADO!";
-        }
-    }, 1000);
-}
-
-
-// ============================================
-// ESTADO GLOBAL (sin cambios)
+// ESTADO GLOBAL
 // ============================================
 let cart = [];
 let currentPage = 'bienvenido';
 let selectedWeights = {};
 let selectedMenuSizes = {};
+let currentLanguage = 'es';
+let currentSearchTerm = '';
+let currentCategory = 'all';
 
 // ============================================
 // INICIALIZACIÓN
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar idioma desde localStorage o usar 'es' por defecto
-    const savedLang = localStorage.getItem('cafeElementosLang');
-    const langSelector = document.getElementById('langSelector');
-    if (savedLang && langSelector) {
-        currentLang = savedLang;
-        langSelector.value = savedLang;
-    }
-    
     init();
     setupCardFormatting();
-    applyTranslations(); // Aplica traducciones al cargar la página
-    updatePromoTimer(); // Inicia el temporizador de la promoción
+    setupMobileMenu();
+    setupPromotionTimer();
+    updateLastUpdateDate();
 });
 
 function init() {
@@ -347,11 +107,1092 @@ function init() {
         }
     });
     
-    // Se elimina renderProducts() y solo se usa renderStoreProducts()
-    renderStoreProducts();
+    renderProducts();
     renderMenuItems();
     showPage('bienvenido');
     updateCartCount();
 }
 
-// ... (Resto del código JS - createProductCard, renderStoreProducts, createMenuItem, renderMenuItems, selectWeight, selectMenuSize, addToCart, addMenuToCart, updateCart, sendContact, subscribeNewsletter, etc. - sin cambios funcionales mayores) ...
+// ============================================
+// NAVEGACIÓN DE PÁGINAS
+// ============================================
+function showPage(pageName) {
+    const pages = ['bienvenido', 'inicio', 'menu', 'productos', 'nosotros', 'privacy'];
+    
+    pages.forEach(page => {
+        const pageEl = document.getElementById(`page-${page}`);
+        if (pageEl) {
+            pageEl.classList.add('hidden');
+        }
+    });
+    
+    const targetPage = document.getElementById(`page-${pageName}`);
+    if (targetPage) {
+        targetPage.classList.remove('hidden');
+        currentPage = pageName;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Cerrar menú móvil si está abierto
+    closeMobileMenu();
+}
+
+// ============================================
+// MENÚ MÓVIL
+// ============================================
+function setupMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (mobileMenuBtn && navMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+        });
+    }
+}
+
+function closeMobileMenu() {
+    const navMenu = document.getElementById('navMenu');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    
+    if (navMenu && mobileMenuBtn) {
+        navMenu.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
+    }
+}
+
+// ============================================
+// SISTEMA DE BÚSQUEDA
+// ============================================
+function handleSearch(event) {
+    if (event.key === 'Enter') {
+        performSearch();
+    }
+}
+
+function handleMainSearch(event) {
+    if (event.key === 'Enter') {
+        performMainSearch();
+    }
+}
+
+function performSearch() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        currentSearchTerm = searchInput.value.trim().toLowerCase();
+        showPage('inicio');
+        filterAndDisplayResults();
+    }
+}
+
+function performMainSearch() {
+    const searchInput = document.getElementById('mainSearchInput');
+    if (searchInput) {
+        currentSearchTerm = searchInput.value.trim().toLowerCase();
+        filterAndDisplayResults();
+    }
+}
+
+function filterByCategory(category) {
+    currentCategory = category;
+    
+    // Actualizar botones activos
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.trim().toLowerCase() === category || 
+            (category === 'all' && btn.textContent.trim() === 'Todos')) {
+            btn.classList.add('active');
+        }
+    });
+    
+    filterAndDisplayResults();
+}
+
+function filterAndDisplayResults() {
+    const searchResults = document.getElementById('searchResults');
+    if (!searchResults) return;
+    
+    let results = [];
+    
+    // Buscar en productos de café
+    if (currentCategory === 'all' || currentCategory === 'coffee') {
+        const coffeeResults = products.filter(product => 
+            product.name.toLowerCase().includes(currentSearchTerm) ||
+            product.origin.toLowerCase().includes(currentSearchTerm)
+        );
+        results = [...results, ...coffeeResults.map(p => ({...p, itemType: 'coffee'}))];
+    }
+    
+    // Buscar en bebidas
+    if (currentCategory === 'all' || currentCategory === 'drinks') {
+        const allDrinks = Object.values(menuItems).flat();
+        const drinkResults = allDrinks.filter(drink => 
+            drink.name.toLowerCase().includes(currentSearchTerm)
+        );
+        results = [...results, ...drinkResults.map(d => ({...d, itemType: 'drink'}))];
+    }
+    
+    displaySearchResults(results);
+}
+
+function displaySearchResults(results) {
+    const searchResults = document.getElementById('searchResults');
+    if (!searchResults) {
+        // Crear contenedor de resultados si no existe
+        const searchSection = document.querySelector('.search-section');
+        if (searchSection) {
+            const resultsContainer = document.createElement('div');
+            resultsContainer.id = 'searchResults';
+            resultsContainer.className = 'search-results';
+            searchSection.appendChild(resultsContainer);
+        }
+    }
+    
+    const resultsContainer = document.getElementById('searchResults');
+    if (!resultsContainer) return;
+    
+    if (results.length === 0) {
+        resultsContainer.innerHTML = `
+            <div class="no-results">
+                <p>No se encontraron resultados para "${currentSearchTerm}"</p>
+                <p>Intenta con otras palabras clave o revisa la categoría seleccionada.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    resultsContainer.innerHTML = `
+        <div class="search-results-header">
+            <h3>Resultados de búsqueda (${results.length})</h3>
+        </div>
+        <div class="search-results-grid">
+            ${results.map(item => createSearchResultCard(item)).join('')}
+        </div>
+    `;
+}
+
+function createSearchResultCard(item) {
+    if (item.itemType === 'coffee') {
+        const selectedWeight = selectedWeights[item.id] || '1/4';
+        const currentPrice = item.prices[selectedWeight];
+        
+        return `
+            <div class="search-result-card coffee-card">
+                <div class="result-image">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%\\'>☕</div>'">
+                </div>
+                <div class="result-info">
+                    <h4>${item.name}</h4>
+                    <p class="result-origin">${item.origin}</p>
+                    <p class="result-price">$${currentPrice}.00 MXN</p>
+                    <button class="result-add-btn" onclick="addToCart(${item.id})">
+                        Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        `;
+    } else {
+        const hasMultipleSizes = item.prices && typeof item.prices === 'object';
+        const selectedSize = selectedMenuSizes[item.id];
+        const currentPrice = hasMultipleSizes ? item.prices[selectedSize] : item.price;
+        
+        return `
+            <div class="search-result-card drink-card">
+                <div class="result-image">
+                    <div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:8px;">
+                        ${item.type === 'frappe' ? '🧊' : item.type === 'tea' ? '🍵' : '☕'}
+                    </div>
+                </div>
+                <div class="result-info">
+                    <h4>${item.name}</h4>
+                    <p class="result-type">${getDrinkTypeName(item.type)}</p>
+                    <p class="result-price">$${currentPrice}.00</p>
+                    <button class="result-add-btn" onclick="addMenuToCart(${item.id})">
+                        Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function getDrinkTypeName(type) {
+    const typeNames = {
+        'frappe': 'Bebida Fría',
+        'hot-coffee': 'Café Caliente',
+        'tea': 'Té'
+    };
+    return typeNames[type] || 'Bebida';
+}
+
+// ============================================
+// PROMOCIONES Y OFERTAS
+// ============================================
+function setupPromotionTimer() {
+    // Establecer fecha de finalización de la promoción (7 días desde hoy)
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 7);
+    
+    function updateTimer() {
+        const now = new Date();
+        const timeLeft = endDate - now;
+        
+        if (timeLeft <= 0) {
+            document.getElementById('promotionTimer').textContent = '¡La promoción ha terminado!';
+            return;
+        }
+        
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        document.getElementById('promotionTimer').textContent = 
+            `La promoción termina en: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+    
+    // Actualizar cada segundo
+    setInterval(updateTimer, 1000);
+    updateTimer();
+}
+
+// ============================================
+// FECHA DE ACTUALIZACIÓN
+// ============================================
+function updateLastUpdateDate() {
+    const lastUpdateElement = document.getElementById('lastUpdateDate');
+    if (lastUpdateElement) {
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('es-MX', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+        lastUpdateElement.textContent = formattedDate;
+    }
+}
+
+// ============================================
+// SISTEMA MULTI-IDIOMA
+// ============================================
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    updatePageContent();
+}
+
+function updatePageContent() {
+    // Aquí puedes implementar la traducción de todo el contenido
+    // Por ahora, solo actualizamos algunos textos clave
+    
+    if (currentLanguage === 'en') {
+        // Traducciones al inglés
+        document.querySelector('.principal-text').textContent = 'Main';
+        document.querySelector('.chat-text').textContent = "Let's chat!";
+        document.querySelector('.welcome-btn').textContent = 'Explore Our Coffee';
+        // ... más traducciones
+    } else {
+        // Textos en español
+        document.querySelector('.principal-text').textContent = 'Principal';
+        document.querySelector('.chat-text').textContent = '¡Vamos a chatear!';
+        document.querySelector('.welcome-btn').textContent = 'Explorar Nuestro Café';
+        // ... más textos en español
+    }
+}
+
+// ============================================
+// RENDERIZADO DE PRODUCTOS (CAFÉ)
+// ============================================
+function createProductCard(product, containerId) {
+    const selectedWeight = selectedWeights[product.id] || '1/4';
+    const currentPrice = product.prices[selectedWeight];
+    
+    return `
+        <div class="product-card" data-product-id="${product.id}">
+            <div class="product-badge">Nuevo</div>
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%\\'>☕</div>'">
+                <button class="add-to-cart-btn" onclick="addToCart(${product.id})" title="Agregar al carrito">+</button>
+            </div>
+            <div class="product-info">
+                <div class="product-name">${product.name}</div>
+                <div class="product-origin">${product.origin}</div>
+                <div class="product-price" id="price-${containerId}-${product.id}">$${currentPrice}.00 MXN</div>
+                <div class="product-weight">
+                    ${Object.keys(product.prices).map(weight => `
+                        <button class="weight-btn ${selectedWeight === weight ? 'active' : ''}" 
+                                onclick="selectWeight(${product.id}, '${weight}', '${containerId}')">
+                            ${weight === '1kg' ? '1 kg' : weight + ' kg'}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderProducts() {
+    const container = document.getElementById('productsGrid');
+    if (container) {
+        container.innerHTML = products.map(product => createProductCard(product, 'productos')).join('');
+    }
+}
+
+// ============================================
+// RENDERIZADO DE MENÚ (BEBIDAS)
+// ============================================
+function createMenuItem(item) {
+    const hasMultipleSizes = item.prices && typeof item.prices === 'object';
+    const selectedSize = selectedMenuSizes[item.id];
+    const currentPrice = hasMultipleSizes ? item.prices[selectedSize] : item.price;
+    
+    return `
+        <div class="menu-item" data-menu-id="${item.id}">
+            <div class="menu-item-header">
+                <div class="menu-item-name">${item.name}</div>
+                <div class="menu-item-price" id="menu-price-${item.id}">$${currentPrice}.00</div>
+            </div>
+            ${hasMultipleSizes ? `
+                <div class="menu-item-sizes">
+                    ${Object.keys(item.prices).map(size => `
+                        <button class="size-btn ${selectedSize === size ? 'active' : ''}" 
+                                onclick="selectMenuSize(${item.id}, '${size}')">
+                            ${size}
+                        </button>
+                    `).join('')}
+                </div>
+            ` : ''}
+            <button class="menu-item-add" onclick="addMenuToCart(${item.id})">
+                + Agregar al carrito
+            </button>
+        </div>
+    `;
+}
+
+function renderMenuItems() {
+    const frappesContainer = document.getElementById('menuFrappes');
+    const hotCoffeeContainer = document.getElementById('menuHotCoffee');
+    const teasContainer = document.getElementById('menuTeas');
+    
+    if (frappesContainer) {
+        frappesContainer.innerHTML = menuItems.frappes.map(item => createMenuItem(item)).join('');
+    }
+    
+    if (hotCoffeeContainer) {
+        hotCoffeeContainer.innerHTML = menuItems.hotCoffee.map(item => createMenuItem(item)).join('');
+    }
+    
+    if (teasContainer) {
+        teasContainer.innerHTML = menuItems.teas.map(item => createMenuItem(item)).join('');
+    }
+}
+
+// ============================================
+// SELECCIÓN DE PESO (CAFÉ)
+// ============================================
+function selectWeight(productId, weight, containerId) {
+    selectedWeights[productId] = weight;
+    const product = products.find(p => p.id === productId);
+    
+    // Actualizar precio mostrado
+    const priceEl = document.getElementById(`price-${containerId}-${productId}`);
+    if (priceEl) {
+        priceEl.textContent = `$${product.prices[weight]}.00 MXN`;
+    }
+    
+    // Actualizar botones activos
+    const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+    if (card) {
+        const container = card.closest(`#page-${containerId === 'productos' ? 'productos' : 'tienda'}`);
+        if (container) {
+            const buttons = container.querySelectorAll(`.product-card[data-product-id="${productId}"] .weight-btn`);
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.trim().includes(weight)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    }
+}
+
+// ============================================
+// SELECCIÓN DE TAMAÑO (MENÚ)
+// ============================================
+function selectMenuSize(itemId, size) {
+    selectedMenuSizes[itemId] = size;
+    const item = Object.values(menuItems).flat().find(i => i.id === itemId);
+    
+    // Actualizar precio mostrado
+    const priceEl = document.getElementById(`menu-price-${itemId}`);
+    if (priceEl && item.prices) {
+        priceEl.textContent = `$${item.prices[size]}.00`;
+    }
+    
+    // Actualizar botones activos
+    const menuItem = document.querySelector(`.menu-item[data-menu-id="${itemId}"]`);
+    if (menuItem) {
+        const buttons = menuItem.querySelectorAll('.size-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.textContent.trim() === size) {
+                btn.classList.add('active');
+            }
+        });
+    }
+}
+
+// ============================================
+// FUNCIONES DEL CARRITO
+// ============================================
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    const weight = selectedWeights[productId] || '1/4';
+    const existingItem = cart.find(item => item.id === productId && item.weight === weight && item.type === 'product');
+    
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({
+            id: productId,
+            type: 'product',
+            name: product.name,
+            origin: product.origin,
+            weight: weight,
+            price: product.prices[weight],
+            quantity: 1,
+            image: product.image
+        });
+    }
+    
+    updateCart();
+    showNotification(`${product.name} (${weight}) agregado al carrito`, 'success');
+}
+
+function addMenuToCart(itemId) {
+    const item = Object.values(menuItems).flat().find(i => i.id === itemId);
+    const size = selectedMenuSizes[itemId];
+    const price = item.prices ? item.prices[size] : item.price;
+    const sizeText = item.prices ? size : 'Único';
+    
+    const existingItem = cart.find(cartItem => 
+        cartItem.id === itemId && 
+        cartItem.size === sizeText && 
+        cartItem.type === 'menu'
+    );
+    
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({
+            id: itemId,
+            type: 'menu',
+            name: item.name,
+            size: sizeText,
+            price: price,
+            quantity: 1,
+            category: item.category
+        });
+    }
+    
+    updateCart();
+    showNotification(`${item.name} (${sizeText}) agregado al carrito`, 'success');
+}
+
+function removeFromCart(index) {
+    const item = cart[index];
+    cart.splice(index, 1);
+    updateCart();
+    showNotification(`${item.name} eliminado del carrito`, 'success');
+}
+
+function updateQuantity(index, change) {
+    cart[index].quantity += change;
+    if (cart[index].quantity <= 0) {
+        removeFromCart(index);
+    } else {
+        updateCart();
+    }
+}
+
+function updateCart() {
+    updateCartCount();
+    renderCartItems();
+    updateCartTotal();
+}
+
+function updateCartCount() {
+    const cartCount = document.getElementById('cartCount');
+    if (cartCount) {
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = total;
+    }
+}
+
+function renderCartItems() {
+    const cartItems = document.getElementById('cartItems');
+    if (!cartItems) return;
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                <p style="font-size: 3rem; margin-bottom: 1rem;">🛒</p>
+                <p>Tu carrito está vacío</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">¡Agrega algunos productos deliciosos!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    cartItems.innerHTML = cart.map((item, index) => {
+        const displayInfo = item.type === 'product' 
+            ? `${item.weight} kg` 
+            : item.size;
+        
+        const imageHTML = item.image 
+            ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:2.5rem\\'>☕</div>'">`
+            : '<div style="font-size:2.5rem;">☕</div>';
+        
+        return `
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    ${imageHTML}
+                </div>
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-weight">${displayInfo}</div>
+                    <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)} MXN</div>
+                    <div class="cart-item-quantity">
+                        <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                        <span>${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                    </div>
+                </div>
+                <button class="cart-item-remove" onclick="removeFromCart(${index})" title="Eliminar">✕</button>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateCartTotal() {
+    const cartTotal = document.getElementById('cartTotal');
+    if (cartTotal) {
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        cartTotal.textContent = `$${total.toFixed(2)} MXN`;
+    }
+}
+
+function toggleCart() {
+    const modal = document.getElementById('cartModal');
+    const overlay = document.getElementById('cartOverlay');
+    modal.classList.toggle('active');
+    overlay.classList.toggle('active');
+    
+    if (modal.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}
+
+// ============================================
+// CHECKOUT
+// ============================================
+function openCheckout() {
+    if (cart.length === 0) {
+        showNotification('Tu carrito está vacío', 'error');
+        return;
+    }
+    
+    toggleCart();
+    
+    const modal = document.getElementById('checkoutModal');
+    const overlay = document.getElementById('checkoutOverlay');
+    const summaryItems = document.getElementById('orderSummaryItems');
+    const orderTotal = document.getElementById('orderTotal');
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    summaryItems.innerHTML = cart.map(item => {
+        const displayInfo = item.type === 'product' ? `(${item.weight})` : `(${item.size})`;
+        return `
+            <div class="summary-item">
+                <span>${item.name} ${displayInfo} x${item.quantity}</span>
+                <span>$${(item.price * item.quantity).toFixed(2)} MXN</span>
+            </div>
+        `;
+    }).join('');
+    
+    orderTotal.textContent = `$${total.toFixed(2)} MXN`;
+    
+    modal.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCheckout() {
+    const modal = document.getElementById('checkoutModal');
+    const overlay = document.getElementById('checkoutOverlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// ============================================
+// TOGGLE PAYMENT FORM
+// ============================================
+function togglePaymentForm(method) {
+    const cardForm = document.getElementById('cardPaymentForm');
+    const paypalForm = document.getElementById('paypalPaymentForm');
+    
+    if (method === 'card') {
+        cardForm.style.display = 'block';
+        paypalForm.style.display = 'none';
+        
+        // Hacer campos requeridos
+        document.getElementById('cardNumber').required = true;
+        document.getElementById('cardExpiry').required = true;
+        document.getElementById('cardCVV').required = true;
+        document.getElementById('cardName').required = true;
+        document.getElementById('paypalEmail').required = false;
+    } else if (method === 'paypal') {
+        cardForm.style.display = 'none';
+        paypalForm.style.display = 'block';
+        
+        // Hacer campos no requeridos
+        document.getElementById('cardNumber').required = false;
+        document.getElementById('cardExpiry').required = false;
+        document.getElementById('cardCVV').required = false;
+        document.getElementById('cardName').required = false;
+        document.getElementById('paypalEmail').required = true;
+    }
+}
+
+// ============================================
+// CONFIRMAR ORDEN
+// ============================================
+async function confirmOrder() {
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    
+    // Obtener valores comunes del formulario
+    const name = document.getElementById('checkoutName').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+    const address = document.getElementById('checkoutAddress').value.trim();
+    const city = document.getElementById('checkoutCity').value.trim();
+    const postal = document.getElementById('checkoutPostal').value.trim();
+    
+    // Validaciones comunes
+    if (!name || !email || !phone || !address || !city || !postal) {
+        showNotification('Por favor completa todos los campos', 'error');
+        return;
+    }
+    
+    if (!validateEmail(email)) {
+        showNotification('Por favor ingresa un correo válido', 'error');
+        return;
+    }
+    
+    // Validaciones específicas según método de pago
+    if (paymentMethod === 'card') {
+        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+        const cardExpiry = document.getElementById('cardExpiry').value;
+        const cardCVV = document.getElementById('cardCVV').value;
+        const cardName = document.getElementById('cardName').value.trim();
+        
+        if (!cardNumber || !cardExpiry || !cardCVV || !cardName) {
+            showNotification('Por favor completa los datos de la tarjeta', 'error');
+            return;
+        }
+        
+        if (cardNumber.length < 13) {
+            showNotification('Número de tarjeta inválido', 'error');
+            return;
+        }
+        
+        if (!/^\d{2}\/\d{2}$/.test(cardExpiry)) {
+            showNotification('Formato de fecha inválido (MM/AA)', 'error');
+            return;
+        }
+        
+        if (cardCVV.length < 3) {
+            showNotification('CVV inválido', 'error');
+            return;
+        }
+    } else if (paymentMethod === 'paypal') {
+        const paypalEmail = document.getElementById('paypalEmail').value.trim();
+        
+        if (!paypalEmail) {
+            showNotification('Por favor ingresa tu correo de PayPal', 'error');
+            return;
+        }
+        
+        if (!validateEmail(paypalEmail)) {
+            showNotification('Por favor ingresa un correo de PayPal válido', 'error');
+            return;
+        }
+    }
+    
+    // Deshabilitar botón mientras procesa
+    const confirmBtn = document.querySelector('.confirm-btn');
+    const originalText = confirmBtn.textContent;
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML = '<span class="loading-spinner"></span>Procesando...';
+    
+    // Generar número de orden
+    const orderNumber = 'CE' + Date.now().toString().slice(-8);
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    // Preparar contenido del email
+    const itemsList = cart.map(item => {
+        const displayInfo = item.type === 'product' ? `(${item.weight})` : `(${item.size})`;
+        return `• ${item.name} ${displayInfo} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)} MXN`;
+    }).join('\n');
+    
+    const paymentInfo = paymentMethod === 'card' 
+        ? `Tarjeta: **** **** **** ${document.getElementById('cardNumber').value.replace(/\s/g, '').slice(-4)}\nTitular: ${document.getElementById('cardName').value.trim()}`
+        : `PayPal: ${document.getElementById('paypalEmail').value.trim()}`;
+    
+    const emailBody = `
+╔══════════════════════════════════════════╗
+     CONFIRMACIÓN DE PEDIDO - CAFÉ ELEMENTOS
+╚══════════════════════════════════════════╝
+
+Número de Orden: ${orderNumber}
+Fecha: ${new Date().toLocaleDateString('es-MX', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+})}
+
+──────────────────────────────────────────
+DATOS DEL CLIENTE
+──────────────────────────────────────────
+Nombre: ${name}
+Email: ${email}
+Teléfono: ${phone}
+Dirección: ${address}
+Ciudad: ${city}
+Código Postal: ${postal}
+
+──────────────────────────────────────────
+PRODUCTOS ORDENADOS
+──────────────────────────────────────────
+${itemsList}
+
+──────────────────────────────────────────
+                    TOTAL: $${total.toFixed(2)} MXN
+──────────────────────────────────────────
+
+INFORMACIÓN DE PAGO
+──────────────────────────────────────────
+Método: ${paymentMethod === 'card' ? 'Tarjeta de Crédito/Débito' : 'PayPal'}
+${paymentInfo}
+Estado: ✓ PAGADO
+
+╔══════════════════════════════════════════╗
+
+¡Gracias por tu compra!
+
+Tu pedido será procesado y enviado en las próximas 24-48 horas.
+Te enviaremos un correo con el número de seguimiento cuando tu pedido sea enviado.
+
+Para cualquier duda, contáctanos:
+📞 993 426 3253
+📧 cafelementos@gmail.com
+
+──────────────────────────────────────────
+Café Elementos
+Av Paseo Tabasco 1124, Jesus Garcia
+86040 Villahermosa, Tabasco, México
+╚══════════════════════════════════════════╝
+    `.trim();
+
+    try {
+        // Enviar email usando EmailJS
+        await sendOrderEmail({
+            to_email: email,
+            to_name: name,
+            order_number: orderNumber,
+            email_body: emailBody
+        });
+        
+        // Éxito
+        closeCheckout();
+        document.getElementById('orderNumber').textContent = orderNumber;
+        
+        // Actualizar texto según método de pago
+        const paymentMethodText = document.getElementById('paymentMethodText');
+        if (paymentMethod === 'paypal') {
+            paymentMethodText.textContent = 'Tu pago ha sido procesado con PayPal. Hemos enviado la confirmación y el ticket a tu correo electrónico.';
+        } else {
+            paymentMethodText.textContent = 'Hemos enviado la confirmación y el ticket a tu correo electrónico.';
+        }
+        
+        const successModal = document.getElementById('successModal');
+        const successOverlay = document.getElementById('successOverlay');
+        successModal.classList.add('active');
+        successOverlay.classList.add('active');
+        
+        // Limpiar carrito y formulario
+        cart = [];
+        updateCart();
+        document.getElementById('checkoutForm').reset();
+        
+    } catch (error) {
+        console.error('Error enviando email:', error);
+        showNotification('Error al procesar el pedido. Intenta de nuevo.', 'error');
+    } finally {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = originalText;
+    }
+}
+
+// ============================================
+// ENVÍO DE EMAILS CON EMAILJS
+// ============================================
+async function sendOrderEmail(params) {
+    // Verificar si EmailJS está configurado
+    if (EMAILJS_SERVICE_ID === 'service_xxxxxxx') {
+        console.warn('EmailJS no está configurado. Mostrando email en consola:');
+        console.log('╔══════════════════════════════════════════╗');
+        console.log('TICKET DE COMPRA - SIMULACIÓN');
+        console.log('╚══════════════════════════════════════════╝');
+        console.log('Para:', params.to_email);
+        console.log('Nombre:', params.to_name);
+        console.log('Orden:', params.order_number);
+        console.log('──────────────────────────────────────────');
+        console.log(params.email_body);
+        console.log('╚══════════════════════════════════════════╝');
+        
+        // Simular delay de envío
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        return { status: 200 };
+    }
+    
+    // Enviar con EmailJS
+    return emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        params,
+        EMAILJS_PUBLIC_KEY
+    );
+}
+
+function closeSuccess() {
+    const modal = document.getElementById('successModal');
+    const overlay = document.getElementById('successOverlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    showPage('inicio');
+}
+
+// ============================================
+// NEWSLETTER Y CONTACTO
+// ============================================
+function subscribeNewsletter() {
+    const emailInput = document.getElementById('newsletterEmail');
+    const email = emailInput.value.trim();
+    
+    if (!email) {
+        showNotification('Por favor ingresa tu correo electrónico', 'error');
+        return;
+    }
+    
+    if (!validateEmail(email)) {
+        showNotification('Por favor ingresa un correo válido', 'error');
+        return;
+    }
+    
+    showNotification('¡Gracias por suscribirte! Te enviaremos las últimas noticias.', 'success');
+    emailInput.value = '';
+}
+
+function sendContact() {
+    const name = document.getElementById('contactName')?.value.trim();
+    const email = document.getElementById('contactEmail')?.value.trim();
+    const message = document.getElementById('contactMessage')?.value.trim();
+    
+    if (!name || !email || !message) {
+        showNotification('Por favor completa todos los campos', 'error');
+        return;
+    }
+    
+    if (!validateEmail(email)) {
+        showNotification('Por favor ingresa un correo válido', 'error');
+        return;
+    }
+    
+    showNotification('¡Gracias por contactarnos! Te responderemos pronto.', 'success');
+    
+    // Limpiar formulario
+    if (document.getElementById('contactName')) document.getElementById('contactName').value = '';
+    if (document.getElementById('contactLastName')) document.getElementById('contactLastName').value = '';
+    if (document.getElementById('contactEmail')) document.getElementById('contactEmail').value = '';
+    if (document.getElementById('contactPhone')) document.getElementById('contactPhone').value = '';
+    if (document.getElementById('contactMessage')) document.getElementById('contactMessage').value = '';
+}
+
+// ============================================
+// CHAT
+// ============================================
+function toggleChat() {
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    
+    if (chatWindow.classList.contains('active')) {
+        chatWindow.classList.remove('active');
+        chatButton.style.display = 'flex';
+    } else {
+        chatWindow.classList.add('active');
+        chatButton.style.display = 'none';
+    }
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    const messagesContainer = document.getElementById('chatMessages');
+    
+    // Agregar mensaje del usuario
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chat-message sent';
+    messageDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
+    messagesContainer.appendChild(messageDiv);
+    
+    input.value = '';
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    // Simular respuesta
+    setTimeout(() => {
+        const responses = [
+            '¡Gracias por tu mensaje! Un representante te atenderá pronto.',
+            '¿Te gustaría conocer nuestros productos destacados?',
+            'Estamos aquí para ayudarte. ¿En qué más puedo asistirte?',
+            '¡Excelente pregunta! Déjame verificar esa información para ti.'
+        ];
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        
+        const responseDiv = document.createElement('div');
+        responseDiv.className = 'chat-message received';
+        responseDiv.innerHTML = `<p>${randomResponse}</p>`;
+        messagesContainer.appendChild(responseDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 1500);
+}
+
+function handleChatEnter(event) {
+    if (event.key === 'Enter') {
+        sendChatMessage();
+    }
+}
+
+// ============================================
+// UTILIDADES
+// ============================================
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showNotification(message, type = 'success') {
+    // Remover notificaciones existentes
+    const existing = document.querySelectorAll('.notification');
+    existing.forEach(n => n.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+function setupCardFormatting() {
+    const cardNumberInput = document.getElementById('cardNumber');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue.slice(0, 19);
+        });
+    }
+    
+    const cardExpiryInput = document.getElementById('cardExpiry');
+    if (cardExpiryInput) {
+        cardExpiryInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+    }
+    
+    const cardCVVInput = document.getElementById('cardCVV');
+    if (cardCVVInput) {
+        cardCVVInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+        });
+    }
+}
+
+// ============================================
+// ORDENAMIENTO DE PRODUCTOS
+// ============================================
+function sortProducts(criteria) {
+    let sortedProducts = [...products];
+    
+    switch(criteria) {
+        case 'price-asc':
+            sortedProducts.sort((a, b) => a.prices['1/4'] - b.prices['1/4']);
+            break;
+        case 'price-desc':
+            sortedProducts.sort((a, b) => b.prices['1/4'] - a.prices['1/4']);
+            break;
+        case 'name':
+            sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+    }
+    
+    return sortedProducts;
+}
+
+// Event listener para el selector de ordenamiento
+document.addEventListener('DOMContentLoaded', function() {
+    const sortSelect = document.querySelector('.sort-select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function(e) {
+            const container = document.getElementById('productsGrid');
+            const criteria = e.target.value;
+            let sorted = products;
+            
+            if (criteria.includes('Menor')) {
+                sorted = sortProducts('price-asc');
+            } else if (criteria.includes('Mayor')) {
+                sorted = sortProducts('price-desc');
+            } else if (criteria.includes('A-Z')) {
+                sorted = sortProducts('name');
+            }
+            
+            container.innerHTML = sorted.map(product => createProductCard(product, 'productos')).join('');
+        });
+    }
+});
