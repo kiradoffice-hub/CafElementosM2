@@ -1,4 +1,4 @@
-/* ============================================
+  /* ============================================
    CAFÉ ELEMENTOS - ESTILOS PRINCIPALES
    ============================================ */
 
@@ -137,7 +137,11 @@ nav a:hover {
     gap: 1.5rem;
 }
 
-/* Language Selector */
+/* Language Selector - Siempre visible */
+.language-selector {
+    display: block !important;
+}
+
 .language-selector select {
     padding: 0.5rem;
     border: 1px solid #ddd;
@@ -148,64 +152,9 @@ nav a:hover {
     background: white;
 }
 
-header {
-    background: white;
-    padding: 1.2rem 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 1.5rem; /* más adaptable */
-    position: relative;
-}
-
-.logo { display:flex; align-items:center; gap:0.8rem; cursor:pointer; }
-
-.mobile-menu-btn {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 4px;
-    padding: 0.5rem;
-    z-index: 1100;
-}
-
-.mobile-menu-btn span {
-    width: 25px;
-    height: 3px;
-    background: #000;
-    transition: 0.3s;
-}
-
-/* Nav list */
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 2.5rem;
-    align-items: center;
-    margin-left: 1rem;
-}
-
-/* Right side controls */
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: nowrap;
-}
-
-/* Search & language remain visible in mobile by default */
+/* Search Container - Siempre visible */
 .search-container {
-    display: flex;
+    display: flex !important;
     align-items: center;
     background: #f5f5f5;
     border-radius: 25px;
@@ -213,17 +162,73 @@ nav ul {
     border: 1px solid #ddd;
 }
 
-.language-selector select {
-    padding: 0.45rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+.search-container input {
+    border: none;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
-    cursor: pointer;
-    background: white;
+    width: 200px;
 }
 
-/* Keep principal text smaller on mobile */
-.principal-text { font-style: italic; color: #999; font-size: 0.95rem; }
+.search-btn {
+    background: #C0FC4F;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.search-btn:hover {
+    background: #F59026;
+}
+
+.principal-text {
+    font-style: italic;
+    color: #999;
+    font-size: 1.1rem;
+}
+
+.cart-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: relative;
+    font-size: 1.5rem;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #C0FC4F;
+    color: #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+/* Elementos móviles en el menú */
+.mobile-only {
+    display: none;
+}
+
+.language-selector-mobile,
+.search-container-mobile {
+    display: none;
+}
+
 /* ============================================
    PAGE CONTENT
    ============================================ */
@@ -1922,12 +1927,13 @@ footer {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN - MEJORAS
    ============================================ */
 @media (max-width: 968px) {
-    .mobile-menu-btn { display: flex; }
+    .mobile-menu-btn {
+        display: flex;
+    }
 
-    /* Menu list hidden by default and displayed when .active */
     nav ul {
         display: none;
         position: absolute;
@@ -1937,11 +1943,10 @@ footer {
         background: white;
         flex-direction: column;
         padding: 1rem 0;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.08);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         z-index: 1001;
     }
 
-    /* When nav menu is active (button toggles .active) */
     nav ul.active {
         display: flex;
     }
@@ -1957,34 +1962,191 @@ footer {
         border-bottom: 1px solid #f0f0f0;
     }
 
-    /* IMPORTANT: show the search + language on mobile (do NOT hide) */
-    .search-container {
-        display: flex;            /* antes estaba en none: ahora visible */
-        max-width: 240px;
+    /* Mostrar elementos móviles en el menú */
+    .mobile-only {
+        display: block;
+        padding: 1rem 2rem;
     }
 
-    .language-selector {
-        display: block;          /* mostrar selector en móvil */
+    .language-selector-mobile,
+    .search-container-mobile {
+        display: block;
+        width: 100%;
     }
 
-    .principal-text {
-        display: inline-block;   /* permite verse en móvil, reduce tamaño si hace falta */
+    .language-selector-mobile select {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .search-container-mobile {
+        display: flex;
+        background: #f5f5f5;
+        border-radius: 25px;
+        padding: 0.3rem;
+        border: 1px solid #ddd;
+        margin: 0.5rem 0;
+    }
+
+    .search-container-mobile input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 0.5rem 1rem;
+        outline: none;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Ocultar elementos de escritorio en móvil */
+    .nav-right .language-selector,
+    .nav-right .search-container,
+    .nav-right .principal-text {
+        display: none;
+    }
+
+    .nav-right {
+        gap: 0.8rem;
+    }
+
+    /* Ajustar otros elementos responsivos */
+    .gallery,
+    .about-container,
+    .contact-grid,
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-modal {
+        width: 100%;
+    }
+
+    .welcome-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-window {
+        width: calc(100% - 2rem);
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    .menu-items {
+        grid-template-columns: 1fr;
+    }
+
+    .search-main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-main input {
+        max-width: 100%;
+    }
+
+    .search-results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-result-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .result-image {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-container input {
+        width: 150px;
+        font-size: 0.8rem;
+    }
+    
+    .language-selector select {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        padding: 0 1rem;
+    }
+
+    .page-content {
+        margin-top: 70px;
+    }
+
+    .welcome-section,
+    .about-section,
+    .contact-section,
+    .menu-section,
+    .privacy-section {
+        padding: 2rem 1rem;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-hero h1 {
+        font-size: 2rem;
+    }
+
+    .promotion-banner {
+        padding: 1rem;
+    }
+
+    .promotion-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .search-section {
+        padding: 1rem;
+    }
+
+    .section-title {
+        padding: 2rem 1rem 1rem;
+    }
+
+    .gallery {
+        padding: 0 1rem;
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-item {
+        height: 250px;
+    }
+
+    /* Ajustar search container en móvil muy pequeño */
+    .search-container input {
+        width: 140px;
     }
 
     .nav-right {
         gap: 0.5rem;
-        align-items: center;
     }
-
-    /* Ajustes visuales para evitar que la nav tape contenido */
-    header { padding: 0.8rem 0; }
-    .page-content { margin-top: 72px; }
 }
 
-/* Móviles muy pequeños */
-@media (max-width: 480px) {
-    nav { padding: 0 1rem; }
-    .search-container { max-width: 160px; }
-    .language-selector select { padding: 0.35rem; font-size: 0.85rem; }
-    .principal-text { font-size: 0.8rem; }
+/* Asegurar que los elementos sean clickeables en móvil */
+@media (max-width: 968px) {
+    .language-selector select,
+    .search-btn,
+    .cart-icon {
+        min-height: 44px; /* Tamaño mínimo para touch */
+        min-width: 44px;
+    }
 }
