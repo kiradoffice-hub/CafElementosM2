@@ -148,7 +148,62 @@ nav a:hover {
     background: white;
 }
 
-/* Search Container */
+header {
+    background: white;
+    padding: 1.2rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem; /* más adaptable */
+    position: relative;
+}
+
+.logo { display:flex; align-items:center; gap:0.8rem; cursor:pointer; }
+
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    padding: 0.5rem;
+    z-index: 1100;
+}
+
+.mobile-menu-btn span {
+    width: 25px;
+    height: 3px;
+    background: #000;
+    transition: 0.3s;
+}
+
+/* Nav list */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+/* Right side controls */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+}
+
+/* Search & language remain visible in mobile by default */
 .search-container {
     display: flex;
     align-items: center;
@@ -158,63 +213,17 @@ nav a:hover {
     border: 1px solid #ddd;
 }
 
-.search-container input {
-    border: none;
-    background: transparent;
-    padding: 0.5rem 1rem;
-    outline: none;
-    font-family: 'Poppins', sans-serif;
+.language-selector select {
+    padding: 0.45rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
     font-size: 0.9rem;
-    width: 200px;
-}
-
-.search-btn {
-    background: #C0FC4F;
-    border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
+    background: white;
 }
 
-.search-btn:hover {
-    background: #F59026;
-}
-
-.principal-text {
-    font-style: italic;
-    color: #999;
-    font-size: 1.1rem;
-}
-
-.cart-icon {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    position: relative;
-    font-size: 1.5rem;
-}
-
-.cart-count {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: #C0FC4F;
-    color: #000;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-}
-
+/* Keep principal text smaller on mobile */
+.principal-text { font-style: italic; color: #999; font-size: 0.95rem; }
 /* ============================================
    PAGE CONTENT
    ============================================ */
@@ -1916,10 +1925,9 @@ footer {
    RESPONSIVE DESIGN
    ============================================ */
 @media (max-width: 968px) {
-    .mobile-menu-btn {
-        display: flex;
-    }
+    .mobile-menu-btn { display: flex; }
 
+    /* Menu list hidden by default and displayed when .active */
     nav ul {
         display: none;
         position: absolute;
@@ -1929,10 +1937,11 @@ footer {
         background: white;
         flex-direction: column;
         padding: 1rem 0;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.08);
         z-index: 1001;
     }
 
+    /* When nav menu is active (button toggles .active) */
     nav ul.active {
         display: flex;
     }
@@ -1948,126 +1957,34 @@ footer {
         border-bottom: 1px solid #f0f0f0;
     }
 
-    .nav-right {
-        gap: 1rem;
-    }
-
+    /* IMPORTANT: show the search + language on mobile (do NOT hide) */
     .search-container {
-        display: none;
-    }
-
-    .principal-text {
-        display: none;
+        display: flex;            /* antes estaba en none: ahora visible */
+        max-width: 240px;
     }
 
     .language-selector {
-        display: none;
+        display: block;          /* mostrar selector en móvil */
     }
 
-    .gallery,
-    .about-container,
-    .contact-grid,
-    .footer-content {
-        grid-template-columns: 1fr;
+    .principal-text {
+        display: inline-block;   /* permite verse en móvil, reduce tamaño si hace falta */
     }
 
-    .cart-modal {
-        width: 100%;
-    }
-
-    .welcome-content h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero h1 {
-        font-size: 2.5rem;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .chat-window {
-        width: calc(100% - 2rem);
-        right: 1rem;
-        bottom: 1rem;
-    }
-
-    .menu-items {
-        grid-template-columns: 1fr;
-    }
-
-    .search-main {
-        flex-direction: column;
+    .nav-right {
+        gap: 0.5rem;
         align-items: center;
     }
 
-    .search-main input {
-        max-width: 100%;
-    }
-
-    .search-results-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .search-result-card {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .result-image {
-        width: 100px;
-        height: 100px;
-    }
+    /* Ajustes visuales para evitar que la nav tape contenido */
+    header { padding: 0.8rem 0; }
+    .page-content { margin-top: 72px; }
 }
 
+/* Móviles muy pequeños */
 @media (max-width: 480px) {
-    nav {
-        padding: 0 1.5rem;
-    }
-
-    .page-content {
-        margin-top: 70px;
-    }
-
-    .welcome-section,
-    .about-section,
-    .contact-section,
-    .menu-section,
-    .privacy-section {
-        padding: 3rem 1.5rem;
-    }
-
-    .products-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .menu-hero h1 {
-        font-size: 2.5rem;
-    }
-
-    .promotion-banner {
-        padding: 1.5rem;
-    }
-
-    .promotion-content h3 {
-        font-size: 1.5rem;
-    }
-
-    .search-section {
-        padding: 1.5rem;
-    }
-
-    .section-title {
-        padding: 3rem 1.5rem 2rem;
-    }
-
-    .gallery {
-        padding: 0 1.5rem;
-        grid-template-columns: 1fr;
-    }
-
-    .gallery-item {
-        height: 300px;
-    }
+    nav { padding: 0 1rem; }
+    .search-container { max-width: 160px; }
+    .language-selector select { padding: 0.35rem; font-size: 0.85rem; }
+    .principal-text { font-size: 0.8rem; }
 }
