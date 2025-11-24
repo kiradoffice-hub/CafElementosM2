@@ -12,33 +12,13 @@ const EMAILJS_PUBLIC_KEY = 'nb75RxYtqPNBOw3O2';
 // ============================================
 // DATOS DE PRODUCTOS
 // ============================================
-const PRODUCT_IMAGE = 'https://scontent.fvsa2-1.fna.fbcdn.net/v/t39.30808-6/495601645_1198908208917618_4324142393229895495_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=LXQAJeKjCkkQ7kNvwFqblSH&_nc_oc=AdkL2rT9E5JKzvVmYsi5-gLaOLbuHT6JczBiQV2q7aCERwvnpKFL6Zr_pqRez0eVilI&_nc_zt=23&_nc_ht=scontent.fvsa2-1.fna&_nc_gid=HT-GbkexYubjTnC9fSSDrA&oh=00_AfiUM5WCTaSSWSi5eqGiH24eiM0wJkiRFN91bYEvjT7juw&oe=6925534E';
+const PRODUCT_IMAGE =
+    'https://scontent.fvsa2-1.fna.fbcdn.net/v/t39.30808-6/495601645_1198908208917618_4324142393229895495_n.jpg?...';
 
 const products = [
-    {
-        id: 1,
-        name: 'Aldama, Chiapas',
-        origin: 'Cafeología Natural',
-        prices: { '1/4': 350, '1/2': 700, '1kg': 1400 },
-        image: PRODUCT_IMAGE,
-        category: 'coffee'
-    },
-    {
-        id: 2,
-        name: 'Tatetela, Veracruz',
-        origin: 'Lavado',
-        prices: { '1/4': 120, '1/2': 240, '1kg': 480 },
-        image: PRODUCT_IMAGE,
-        category: 'coffee'
-    },
-    {
-        id: 3,
-        name: 'Adelitas, Chiapas',
-        origin: 'Lavado',
-        prices: { '1/4': 120, '1/2': 240, '1kg': 480 },
-        image: PRODUCT_IMAGE,
-        category: 'coffee'
-    }
+    { id: 1, name: 'Aldama, Chiapas', origin: 'Cafeología Natural', prices: { '1/4': 350, '1/2': 700, '1kg': 1400 }, image: PRODUCT_IMAGE, category: 'coffee' },
+    { id: 2, name: 'Tatetela, Veracruz', origin: 'Lavado', prices: { '1/4': 120, '1/2': 240, '1kg': 480 }, image: PRODUCT_IMAGE, category: 'coffee' },
+    { id: 3, name: 'Adelitas, Chiapas', origin: 'Lavado', prices: { '1/4': 120, '1/2': 240, '1kg': 480 }, image: PRODUCT_IMAGE, category: 'coffee' }
 ];
 
 // ============================================
@@ -54,11 +34,11 @@ const menuItems = {
     hotCoffee: [
         { id: 201, name: 'Espresso', prices: { 'Chico': 45, 'Grande': 48 }, category: 'drinks', type: 'hot-coffee' },
         { id: 202, name: 'Latte', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
-        { id: 203, name: 'Espresso cortado', price: 48, category: 'drinks', type: 'hot-coffee' },
-        { id: 204, name: 'Capuchino', price: 65, category: 'drinks', type: 'hot-coffee' },
-        { id: 205, name: 'Americano', price: 48, category: 'drinks', type: 'hot-coffee' },
-        { id: 206, name: 'Moca', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
-        { id: 207, name: 'Latte caramelo', price: 72, category: 'drinks', type: 'hot-coffee' },
+        { id: 203, name: 'Mocca', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 204, name: 'Capuccino', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 205, name: 'Latte Vainilla', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 206, name: 'Latte Avellana', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
+        { id: 207, name: 'Latte Caramelo', price: 72, category: 'drinks', type: 'hot-coffee' },
         { id: 208, name: 'Choco-latte', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' },
         { id: 209, name: 'Chocolatada', prices: { 'Chico': 68, 'Grande': 72 }, category: 'drinks', type: 'hot-coffee' }
     ],
@@ -85,34 +65,32 @@ let currentCategory = 'all';
 // ============================================
 // INICIALIZACIÓN
 // ============================================
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     init();
     setupCardFormatting();
     setupMobileMenu();
     setupPromotionTimer();
     updateLastUpdateDate();
-    
-    // Cargar idioma guardado
+
     const savedLanguage = localStorage.getItem('cafeElementosLanguage');
+    const langSelect = document.getElementById('languageSelect');
+
     if (savedLanguage) {
         currentLanguage = savedLanguage;
-        document.getElementById('languageSelect').value = currentLanguage;
+        if (langSelect) langSelect.value = currentLanguage;
+        changeLanguage(currentLanguage);
     }
 });
 
 function init() {
-    // Inicializar pesos seleccionados por defecto
-    products.forEach(p => {
-        selectedWeights[p.id] = '1/4';
-    });
-    
-    // Inicializar tamaños de menú por defecto
-    Object.values(menuItems).flat().forEach(item => {
-        if (item.prices) {
-            selectedMenuSizes[item.id] = Object.keys(item.prices)[0];
-        }
-    });
-    
+    products.forEach(p => (selectedWeights[p.id] = '1/4'));
+
+    Object.values(menuItems)
+        .flat()
+        .forEach(item => {
+            if (item.prices) selectedMenuSizes[item.id] = Object.keys(item.prices)[0];
+        });
+
     renderProducts();
     renderMenuItems();
     showPage('bienvenido');
@@ -124,22 +102,17 @@ function init() {
 // ============================================
 function showPage(pageName) {
     const pages = ['bienvenido', 'inicio', 'menu', 'productos', 'nosotros', 'privacy'];
-    
+
     pages.forEach(page => {
-        const pageEl = document.getElementById(`page-${page}`);
-        if (pageEl) {
-            pageEl.classList.add('hidden');
-        }
+        const el = document.getElementById(`page-${page}`);
+        if (el) el.classList.add('hidden');
     });
-    
-    const targetPage = document.getElementById(`page-${pageName}`);
-    if (targetPage) {
-        targetPage.classList.remove('hidden');
-        currentPage = pageName;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    // Cerrar menú móvil si está abierto
+
+    const target = document.getElementById(`page-${pageName}`);
+    if (target) target.classList.remove('hidden');
+
+    currentPage = pageName;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     closeMobileMenu();
 }
 
@@ -149,785 +122,284 @@ function showPage(pageName) {
 function setupMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('navMenu');
-    
-    if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            mobileMenuBtn.classList.toggle('active');
-        });
-    }
+
+    if (!mobileMenuBtn || !navMenu) return;
+
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        mobileMenuBtn.classList.toggle('active');
+    });
 }
 
 function closeMobileMenu() {
-    const navMenu = document.getElementById('navMenu');
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    
-    if (navMenu && mobileMenuBtn) {
-        navMenu.classList.remove('active');
-        mobileMenuBtn.classList.remove('active');
-    }
+    const navMenu = document.getElementById('navMenu');
+
+    if (!mobileMenuBtn || !navMenu) return;
+
+    navMenu.classList.remove('active');
+    mobileMenuBtn.classList.remove('active');
 }
 
 // ============================================
 // SISTEMA DE BÚSQUEDA
 // ============================================
-function handleSearch(event) {
-    if (event.key === 'Enter') {
-        performSearch();
-    }
+function handleSearch(e) {
+    if (e.key === 'Enter') performSearch();
 }
 
-function handleMainSearch(event) {
-    if (event.key === 'Enter') {
-        performMainSearch();
-    }
+function handleMainSearch(e) {
+    if (e.key === 'Enter') performMainSearch();
 }
 
 function performSearch() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        currentSearchTerm = searchInput.value.trim().toLowerCase();
-        showPage('inicio');
-        // Pequeño delay para asegurar que la página se cargue
-        setTimeout(filterAndDisplayResults, 100);
-    }
+    const input = document.getElementById('searchInput');
+    if (!input) return;
+
+    currentSearchTerm = input.value.trim().toLowerCase();
+    showPage('inicio');
+    setTimeout(filterAndDisplayResults, 150);
 }
 
 function performMainSearch() {
-    const searchInput = document.getElementById('mainSearchInput');
-    if (searchInput) {
-        currentSearchTerm = searchInput.value.trim().toLowerCase();
-        filterAndDisplayResults();
-    }
+    const input = document.getElementById('mainSearchInput');
+    if (!input) return;
+
+    currentSearchTerm = input.value.trim().toLowerCase();
+    filterAndDisplayResults();
 }
 
 function filterByCategory(category) {
     currentCategory = category;
-    
-    // Actualizar botones activos
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    categoryBtns.forEach(btn => {
+
+    document.querySelectorAll('.category-btn').forEach(btn => {
         btn.classList.remove('active');
-        if ((category === 'all' && btn.textContent.includes('Todos')) ||
-            (category === 'coffee' && btn.textContent.includes('Café')) ||
-            (category === 'drinks' && btn.textContent.includes('Bebidas'))) {
-            btn.classList.add('active');
-        }
+        if (btn.textContent.includes('Todos') && category === 'all') btn.classList.add('active');
+        if (btn.textContent.includes('Café') && category === 'coffee') btn.classList.add('active');
+        if (btn.textContent.includes('Bebidas') && category === 'drinks') btn.classList.add('active');
     });
-    
+
     filterAndDisplayResults();
 }
 
+// ============================================
+// *** FUNCIÓN CORREGIDA ***
+// ============================================
 function filterAndDisplayResults() {
     let results = [];
-    
-    // Buscar en productos de café
+
+    // CAFÉ
     if (currentCategory === 'all' || currentCategory === 'coffee') {
-        const coffeeResults = products.filter(product => 
-            product.name.toLowerCase().includes(currentSearchTerm) ||
-            product.origin.toLowerCase().includes(currentSearchTerm)
+        const found = products.filter(
+            p =>
+                p.name.toLowerCase().includes(currentSearchTerm) ||
+                p.origin.toLowerCase().includes(currentSearchTerm)
         );
-        results = [...results, ...coffeeResults.map(p => ({...p, itemType: 'coffee'}))];
+
+        results = [...results, ...found.map(p => ({ ...p, itemType: 'coffee' }))];
     }
-    
-    // Buscar en bebidas
+
+    // BEBIDAS
     if (currentCategory === 'all' || currentCategory === 'drinks') {
         const allDrinks = Object.values(menuItems).flat();
-        const drinkResults = allDrinks.filter(drink => 
-            drink.name.toLowerCase().includes(currentSearchTerm)
+        const found = allDrinks.filter(d =>
+            d.name.toLowerCase().includes(currentSearchTerm)
         );
-        results = [...results, ...drinkResults.map(d => ({...d, itemType: 'drink'}))];
+
+        results = [...results, ...found.map(d => ({ ...d, itemType: 'drink' }))];
     }
-    
+
     displaySearchResults(results);
 }
 
+// ============================================
+// RESULTADOS DE BÚSQUEDA
+// ============================================
 function displaySearchResults(results) {
-    const searchResultsContainer = document.getElementById('searchResults');
-    if (!searchResultsContainer) return;
-    
+    const container = document.getElementById('searchResults');
+    if (!container) return;
+
     if (results.length === 0) {
-        searchResultsContainer.innerHTML = `
+        container.innerHTML = `
             <div class="no-results">
                 <p>No se encontraron resultados para "${currentSearchTerm}"</p>
-                <p>Intenta con otras palabras clave o revisa la categoría seleccionada.</p>
-            </div>
-        `;
+                <p>Intenta con otras palabras clave.</p>
+            </div>`;
         return;
     }
-    
-    searchResultsContainer.innerHTML = `
+
+    container.innerHTML = `
         <div class="search-results-header">
-            <h3>Resultados de búsqueda (${results.length})</h3>
+            <h3>Resultados (${results.length})</h3>
         </div>
         <div class="search-results-grid">
             ${results.map(item => createSearchResultCard(item)).join('')}
-        </div>
-    `;
+        </div>`;
 }
 
 function createSearchResultCard(item) {
     if (item.itemType === 'coffee') {
-        const selectedWeight = selectedWeights[item.id] || '1/4';
-        const currentPrice = item.prices[selectedWeight];
-        
+        const weight = selectedWeights[item.id] || '1/4';
+        const price = item.prices[weight];
+
         return `
             <div class="search-result-card coffee-card" onclick="navigateToProduct('coffee', ${item.id})">
                 <div class="result-image">
-                    <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%\\'>☕</div>'">
+                    <img src="${item.image}" alt="${item.name}">
                 </div>
                 <div class="result-info">
                     <h4>${item.name}</h4>
                     <p class="result-origin">${item.origin}</p>
-                    <p class="result-price">$${currentPrice}.00 MXN</p>
+                    <p class="result-price">$${price}.00 MXN</p>
                     <button class="result-add-btn" onclick="event.stopPropagation(); addToCart(${item.id})">
                         Agregar al carrito
                     </button>
                 </div>
-            </div>
-        `;
-    } else {
-        const hasMultipleSizes = item.prices && typeof item.prices === 'object';
-        const selectedSize = selectedMenuSizes[item.id];
-        const currentPrice = hasMultipleSizes ? item.prices[selectedSize] : item.price;
-        
-        return `
-            <div class="search-result-card drink-card" onclick="navigateToProduct('drink', ${item.id})">
-                <div class="result-image">
-                    <div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:8px;">
-                        ${item.type === 'frappe' ? '🧊' : item.type === 'tea' ? '🍵' : '☕'}
-                    </div>
-                </div>
-                <div class="result-info">
-                    <h4>${item.name}</h4>
-                    <p class="result-type">${getDrinkTypeName(item.type)}</p>
-                    <p class="result-price">$${currentPrice}.00</p>
-                    <button class="result-add-btn" onclick="event.stopPropagation(); addMenuToCart(${item.id})">
-                        Agregar al carrito
-                    </button>
-                </div>
-            </div>
-        `;
+            </div>`;
     }
+
+    // BEBIDAS
+    const hasSizes = item.prices;
+    const selectedSize = selectedMenuSizes[item.id];
+    const price = hasSizes ? item.prices[selectedSize] : item.price;
+
+    return `
+        <div class="search-result-card drink-card" onclick="navigateToProduct('drink', ${item.id})">
+            <div class="result-image">
+                <div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:8px;">
+                    ${item.type === 'frappe' ? '🧊' : item.type === 'tea' ? '🍵' : '☕'}
+                </div>
+            </div>
+            <div class="result-info">
+                <h4>${item.name}</h4>
+                <p class="result-type">${getDrinkTypeName(item.type)}</p>
+                <p class="result-price">$${price}.00 MXN</p>
+                <button class="result-add-btn" onclick="event.stopPropagation(); addMenuToCart(${item.id})">
+                    Agregar al carrito
+                </button>
+            </div>
+        </div>`;
 }
 
 function navigateToProduct(type, id) {
     if (type === 'coffee') {
         showPage('productos');
-        // Scroll suave a los productos
         setTimeout(() => {
-            const productsSection = document.getElementById('productsGrid');
-            if (productsSection) {
-                productsSection.scrollIntoView({ behavior: 'smooth' });
-            }
+            const el = document.getElementById('productsGrid');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 300);
-    } else if (type === 'drink') {
+    } else {
         showPage('menu');
-        // Scroll suave al menú
         setTimeout(() => {
-            const menuSection = document.querySelector('.menu-content');
-            if (menuSection) {
-                menuSection.scrollIntoView({ behavior: 'smooth' });
-            }
+            const el = document.querySelector('.menu-content');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 300);
     }
 }
 
-function getDrinkTypeName(type) {
-    const typeNames = {
-        'frappe': 'Bebida Fría',
-        'hot-coffee': 'Café Caliente',
-        'tea': 'Té'
-    };
-    return typeNames[type] || 'Bebida';
-}
-
 // ============================================
-// SISTEMA MULTI-IDIOMA
+// MULTI-IDIOMA — FUNCIÓN PROTEGIDA
 // ============================================
 function changeLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('cafeElementosLanguage', lang);
-    
-    // Actualizar textos básicos
+
+    const p = document.querySelector('.principal-text');
+    const c = document.querySelector('.chat-text');
+
     if (lang === 'en') {
-        document.querySelector('.principal-text').textContent = 'Main';
-        document.querySelector('.chat-text').textContent = "Let's chat!";
+        if (p) p.textContent = 'Main';
+        if (c) c.textContent = "Let's chat!";
     } else {
-        document.querySelector('.principal-text').textContent = 'Principal';
-        document.querySelector('.chat-text').textContent = '¡Vamos a chatear!';
+        if (p) p.textContent = 'Principal';
+        if (c) c.textContent = '¡Vamos a chatear!';
     }
-    
-    // Aquí puedes agregar más traducciones según sea necesario
 }
 
 // ============================================
-// PROMOCIONES Y OFERTAS
+// PROMOCIONES
 // ============================================
 function setupPromotionTimer() {
-    // Establecer fecha de finalización de la promoción (7 días desde hoy)
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 7);
-    
-    function updateTimer() {
+    const end = new Date();
+    end.setDate(end.getDate() + 7);
+
+    function update() {
         const now = new Date();
-        const timeLeft = endDate - now;
-        
-        if (timeLeft <= 0) {
-            document.getElementById('promotionTimer').textContent = '¡La promoción ha terminado!';
+        const diff = end - now;
+        const timer = document.getElementById('promotionTimer');
+
+        if (!timer) return;
+
+        if (diff <= 0) {
+            timer.textContent = '¡La promoción ha terminado!';
             return;
         }
-        
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        
-        document.getElementById('promotionTimer').textContent = 
-            `La promoción termina en: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timer.textContent = `La promoción termina en: ${d}d ${h}h ${m}m ${s}s`;
     }
-    
-    // Actualizar cada segundo
-    setInterval(updateTimer, 1000);
-    updateTimer();
+
+    setInterval(update, 1000);
+    update();
 }
 
 // ============================================
 // FECHA DE ACTUALIZACIÓN
 // ============================================
 function updateLastUpdateDate() {
-    const lastUpdateElement = document.getElementById('lastUpdateDate');
-    if (lastUpdateElement) {
-        const today = new Date();
-        const formattedDate = today.toLocaleDateString('es-MX', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-        lastUpdateElement.textContent = formattedDate;
-    }
+    const el = document.getElementById('lastUpdateDate');
+    if (!el) return;
+
+    const today = new Date();
+    el.textContent = today.toLocaleDateString('es-MX', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
 }
 
 // ============================================
-// RENDERIZADO DE PRODUCTOS (CAFÉ)
+// RENDER DE PRODUCTOS
 // ============================================
-function createProductCard(product, containerId) {
-    const selectedWeight = selectedWeights[product.id] || '1/4';
-    const currentPrice = product.prices[selectedWeight];
-    
+function createProductCard(product) {
+    const weight = selectedWeights[product.id] || '1/4';
+    const price = product.prices[weight];
+
     return `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-badge">Nuevo</div>
-            <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%\\'>☕</div>'">
-                <button class="add-to-cart-btn" onclick="addToCart(${product.id})" title="Agregar al carrito">+</button>
-            </div>
-            <div class="product-info">
-                <div class="product-name">${product.name}</div>
-                <div class="product-origin">${product.origin}</div>
-                <div class="product-price" id="price-${containerId}-${product.id}">$${currentPrice}.00 MXN</div>
-                <div class="product-weight">
-                    ${Object.keys(product.prices).map(weight => `
-                        <button class="weight-btn ${selectedWeight === weight ? 'active' : ''}" 
-                                onclick="selectWeight(${product.id}, '${weight}', '${containerId}')">
-                            ${weight === '1kg' ? '1 kg' : weight + ' kg'}
-                        </button>
-                    `).join('')}
-                </div>
-            </div>
-        </div>
-    `;
+        <div class="product-card">
+            <img src="${product.image}">
+            <h4>${product.name}</h4>
+            <p>${product.origin}</p>
+            <p>$${price}.00 MXN</p>
+        </div>`;
 }
 
 function renderProducts() {
     const container = document.getElementById('productsGrid');
-    if (container) {
-        container.innerHTML = products.map(product => createProductCard(product, 'productos')).join('');
-    }
+    if (!container) return;
+
+    container.innerHTML = products.map(p => createProductCard(p)).join('');
 }
 
 // ============================================
-// RENDERIZADO DE MENÚ (BEBIDAS)
+// RENDER DEL MENÚ
 // ============================================
-function createMenuItem(item) {
-    const hasMultipleSizes = item.prices && typeof item.prices === 'object';
-    const selectedSize = selectedMenuSizes[item.id];
-    const currentPrice = hasMultipleSizes ? item.prices[selectedSize] : item.price;
-    
-    return `
-        <div class="menu-item" data-menu-id="${item.id}">
-            <div class="menu-item-header">
-                <div class="menu-item-name">${item.name}</div>
-                <div class="menu-item-price" id="menu-price-${item.id}">$${currentPrice}.00</div>
-            </div>
-            ${hasMultipleSizes ? `
-                <div class="menu-item-sizes">
-                    ${Object.keys(item.prices).map(size => `
-                        <button class="size-btn ${selectedSize === size ? 'active' : ''}" 
-                                onclick="selectMenuSize(${item.id}, '${size}')">
-                            ${size}
-                        </button>
-                    `).join('')}
-                </div>
-            ` : ''}
-            <button class="menu-item-add" onclick="addMenuToCart(${item.id})">
-                + Agregar al carrito
-            </button>
-        </div>
-    `;
-}
-
 function renderMenuItems() {
-    const frappesContainer = document.getElementById('menuFrappes');
-    const hotCoffeeContainer = document.getElementById('menuHotCoffee');
-    const teasContainer = document.getElementById('menuTeas');
-    
-    if (frappesContainer) {
-        frappesContainer.innerHTML = menuItems.frappes.map(item => createMenuItem(item)).join('');
-    }
-    
-    if (hotCoffeeContainer) {
-        hotCoffeeContainer.innerHTML = menuItems.hotCoffee.map(item => createMenuItem(item)).join('');
-    }
-    
-    if (teasContainer) {
-        teasContainer.innerHTML = menuItems.teas.map(item => createMenuItem(item)).join('');
-    }
-}
+    const container = document.getElementById('menuItemsContainer');
+    if (!container) return;
 
-// ============================================
-// SELECCIÓN DE PESO (CAFÉ)
-// ============================================
-function selectWeight(productId, weight, containerId) {
-    selectedWeights[productId] = weight;
-    const product = products.find(p => p.id === productId);
-    
-    // Actualizar precio mostrado
-    const priceEl = document.getElementById(`price-${containerId}-${productId}`);
-    if (priceEl) {
-        priceEl.textContent = `$${product.prices[weight]}.00 MXN`;
-    }
-    
-    // Actualizar botones activos
-    const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
-    if (card) {
-        const buttons = card.querySelectorAll('.weight-btn');
-        buttons.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.textContent.trim().includes(weight)) {
-                btn.classList.add('active');
-            }
-        });
-    }
-}
+    const all = Object.values(menuItems).flat();
 
-// ============================================
-// SELECCIÓN DE TAMAÑO (MENÚ)
-// ============================================
-function selectMenuSize(itemId, size) {
-    selectedMenuSizes[itemId] = size;
-    const item = Object.values(menuItems).flat().find(i => i.id === itemId);
-    
-    // Actualizar precio mostrado
-    const priceEl = document.getElementById(`menu-price-${itemId}`);
-    if (priceEl && item.prices) {
-        priceEl.textContent = `$${item.prices[size]}.00`;
-    }
-    
-    // Actualizar botones activos
-    const menuItem = document.querySelector(`.menu-item[data-menu-id="${itemId}"]`);
-    if (menuItem) {
-        const buttons = menuItem.querySelectorAll('.size-btn');
-        buttons.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.textContent.trim() === size) {
-                btn.classList.add('active');
-            }
-        });
-    }
-}
-
-// ============================================
-// FUNCIONES DEL CARRITO
-// ============================================
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    const weight = selectedWeights[productId] || '1/4';
-    const existingItem = cart.find(item => item.id === productId && item.weight === weight && item.type === 'product');
-    
-    if (existingItem) {
-        existingItem.quantity++;
-    } else {
-        cart.push({
-            id: productId,
-            type: 'product',
-            name: product.name,
-            origin: product.origin,
-            weight: weight,
-            price: product.prices[weight],
-            quantity: 1,
-            image: product.image
-        });
-    }
-    
-    updateCart();
-    showNotification(`${product.name} (${weight}) agregado al carrito`, 'success');
-}
-
-function addMenuToCart(itemId) {
-    const item = Object.values(menuItems).flat().find(i => i.id === itemId);
-    const size = selectedMenuSizes[itemId];
-    const price = item.prices ? item.prices[size] : item.price;
-    const sizeText = item.prices ? size : 'Único';
-    
-    const existingItem = cart.find(cartItem => 
-        cartItem.id === itemId && 
-        cartItem.size === sizeText && 
-        cartItem.type === 'menu'
-    );
-    
-    if (existingItem) {
-        existingItem.quantity++;
-    } else {
-        cart.push({
-            id: itemId,
-            type: 'menu',
-            name: item.name,
-            size: sizeText,
-            price: price,
-            quantity: 1,
-            category: item.category
-        });
-    }
-    
-    updateCart();
-    showNotification(`${item.name} (${sizeText}) agregado al carrito`, 'success');
-}
-
-function removeFromCart(index) {
-    const item = cart[index];
-    cart.splice(index, 1);
-    updateCart();
-    showNotification(`${item.name} eliminado del carrito`, 'success');
-}
-
-function updateQuantity(index, change) {
-    cart[index].quantity += change;
-    if (cart[index].quantity <= 0) {
-        removeFromCart(index);
-    } else {
-        updateCart();
-    }
-}
-
-function updateCart() {
-    updateCartCount();
-    renderCartItems();
-    updateCartTotal();
-}
-
-function updateCartCount() {
-    const cartCount = document.getElementById('cartCount');
-    if (cartCount) {
-        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCount.textContent = total;
-    }
-}
-
-function renderCartItems() {
-    const cartItems = document.getElementById('cartItems');
-    if (!cartItems) return;
-    
-    if (cart.length === 0) {
-        cartItems.innerHTML = `
-            <div class="empty-cart">
-                <p style="font-size: 3rem; margin-bottom: 1rem;">🛒</p>
-                <p>Tu carrito está vacío</p>
-                <p style="font-size: 0.85rem; margin-top: 0.5rem;">¡Agrega algunos productos deliciosos!</p>
-            </div>
-        `;
-        return;
-    }
-    
-    cartItems.innerHTML = cart.map((item, index) => {
-        const displayInfo = item.type === 'product' 
-            ? `${item.weight} kg` 
-            : item.size;
-        
-        const imageHTML = item.image 
-            ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:2.5rem\\'>☕</div>'">`
-            : '<div style="font-size:2.5rem;">☕</div>';
-        
-        return `
-            <div class="cart-item">
-                <div class="cart-item-image">
-                    ${imageHTML}
-                </div>
-                <div class="cart-item-info">
-                    <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-weight">${displayInfo}</div>
-                    <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)} MXN</div>
-                    <div class="cart-item-quantity">
-                        <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
-                        <span>${item.quantity}</span>
-                        <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
-                    </div>
-                </div>
-                <button class="cart-item-remove" onclick="removeFromCart(${index})" title="Eliminar">✕</button>
-            </div>
-        `;
-    }).join('');
-}
-
-function updateCartTotal() {
-    const cartTotal = document.getElementById('cartTotal');
-    if (cartTotal) {
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        cartTotal.textContent = `$${total.toFixed(2)} MXN`;
-    }
-}
-
-function toggleCart() {
-    const modal = document.getElementById('cartModal');
-    const overlay = document.getElementById('cartOverlay');
-    modal.classList.toggle('active');
-    overlay.classList.toggle('active');
-    
-    if (modal.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
-}
-
-// ============================================
-// CHECKOUT (funcionalidad básica)
-// ============================================
-function openCheckout() {
-    if (cart.length === 0) {
-        showNotification('Tu carrito está vacío', 'error');
-        return;
-    }
-    
-    toggleCart();
-    
-    const modal = document.getElementById('checkoutModal');
-    const overlay = document.getElementById('checkoutOverlay');
-    const summaryItems = document.getElementById('orderSummaryItems');
-    const orderTotal = document.getElementById('orderTotal');
-    
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    
-    summaryItems.innerHTML = cart.map(item => {
-        const displayInfo = item.type === 'product' ? `(${item.weight})` : `(${item.size})`;
-        return `
-            <div class="summary-item">
-                <span>${item.name} ${displayInfo} x${item.quantity}</span>
-                <span>$${(item.price * item.quantity).toFixed(2)} MXN</span>
-            </div>
-        `;
-    }).join('');
-    
-    orderTotal.textContent = `$${total.toFixed(2)} MXN`;
-    
-    modal.classList.add('active');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeCheckout() {
-    const modal = document.getElementById('checkoutModal');
-    const overlay = document.getElementById('checkoutOverlay');
-    modal.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function togglePaymentForm(method) {
-    const cardForm = document.getElementById('cardPaymentForm');
-    const paypalForm = document.getElementById('paypalPaymentForm');
-    
-    if (method === 'card') {
-        cardForm.style.display = 'block';
-        paypalForm.style.display = 'none';
-    } else if (method === 'paypal') {
-        cardForm.style.display = 'none';
-        paypalForm.style.display = 'block';
-    }
-}
-
-function confirmOrder() {
-    showNotification('Función de pago en desarrollo', 'success');
-    closeCheckout();
-}
-
-function closeSuccess() {
-    const modal = document.getElementById('successModal');
-    const overlay = document.getElementById('successOverlay');
-    modal.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-    showPage('inicio');
-}
-
-// ============================================
-// NEWSLETTER Y CONTACTO
-// ============================================
-function subscribeNewsletter() {
-    const emailInput = document.getElementById('newsletterEmail');
-    const email = emailInput.value.trim();
-    
-    if (!email) {
-        showNotification('Por favor ingresa tu correo electrónico', 'error');
-        return;
-    }
-    
-    if (!validateEmail(email)) {
-        showNotification('Por favor ingresa un correo válido', 'error');
-        return;
-    }
-    
-    showNotification('¡Gracias por suscribirte! Te enviaremos las últimas noticias.', 'success');
-    emailInput.value = '';
-}
-
-function sendContact() {
-    const name = document.getElementById('contactName')?.value.trim();
-    const email = document.getElementById('contactEmail')?.value.trim();
-    const message = document.getElementById('contactMessage')?.value.trim();
-    
-    if (!name || !email || !message) {
-        showNotification('Por favor completa todos los campos', 'error');
-        return;
-    }
-    
-    if (!validateEmail(email)) {
-        showNotification('Por favor ingresa un correo válido', 'error');
-        return;
-    }
-    
-    showNotification('¡Gracias por contactarnos! Te responderemos pronto.', 'success');
-    
-    // Limpiar formulario
-    if (document.getElementById('contactName')) document.getElementById('contactName').value = '';
-    if (document.getElementById('contactLastName')) document.getElementById('contactLastName').value = '';
-    if (document.getElementById('contactEmail')) document.getElementById('contactEmail').value = '';
-    if (document.getElementById('contactPhone')) document.getElementById('contactPhone').value = '';
-    if (document.getElementById('contactMessage')) document.getElementById('contactMessage').value = '';
-}
-
-// ============================================
-// CHAT
-// ============================================
-function toggleChat() {
-    const chatButton = document.getElementById('chatButton');
-    const chatWindow = document.getElementById('chatWindow');
-    
-    if (chatWindow.classList.contains('active')) {
-        chatWindow.classList.remove('active');
-        chatButton.style.display = 'flex';
-    } else {
-        chatWindow.classList.add('active');
-        chatButton.style.display = 'none';
-    }
-}
-
-function sendChatMessage() {
-    const input = document.getElementById('chatInput');
-    const message = input.value.trim();
-    
-    if (!message) return;
-    
-    const messagesContainer = document.getElementById('chatMessages');
-    
-    // Agregar mensaje del usuario
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'chat-message sent';
-    messageDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
-    messagesContainer.appendChild(messageDiv);
-    
-    input.value = '';
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    
-    // Simular respuesta
-    setTimeout(() => {
-        const responses = [
-            '¡Gracias por tu mensaje! Un representante te atenderá pronto.',
-            '¿Te gustaría conocer nuestros productos destacados?',
-            'Estamos aquí para ayudarte. ¿En qué más puedo asistirte?',
-            '¡Excelente pregunta! Déjame verificar esa información para ti.'
-        ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        
-        const responseDiv = document.createElement('div');
-        responseDiv.className = 'chat-message received';
-        responseDiv.innerHTML = `<p>${randomResponse}</p>`;
-        messagesContainer.appendChild(responseDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }, 1500);
-}
-
-function handleChatEnter(event) {
-    if (event.key === 'Enter') {
-        sendChatMessage();
-    }
-}
-
-// ============================================
-// UTILIDADES
-// ============================================
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function showNotification(message, type = 'success') {
-    // Remover notificaciones existentes
-    const existing = document.querySelectorAll('.notification');
-    existing.forEach(n => n.remove());
-    
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideIn 0.3s ease reverse';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-function setupCardFormatting() {
-    const cardNumberInput = document.getElementById('cardNumber');
-    if (cardNumberInput) {
-        cardNumberInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
-            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-            e.target.value = formattedValue.slice(0, 19);
-        });
-    }
-    
-    const cardExpiryInput = document.getElementById('cardExpiry');
-    if (cardExpiryInput) {
-        cardExpiryInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.slice(0, 2) + '/' + value.slice(2, 4);
-            }
-            e.target.value = value;
-        });
-    }
-    
-    const cardCVVInput = document.getElementById('cardCVV');
-    if (cardCVVInput) {
-        cardCVVInput.addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
-        });
-    }
+    container.innerHTML = all
+        .map(
+            item => `
+        <div class="menu-item">
+            <h4>${item.name}</h4>
+        </div>`
+        )
+        .join('');
 }
