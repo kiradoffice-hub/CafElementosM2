@@ -326,6 +326,22 @@ function init() {
     renderMenuItems();
     showPage('bienvenido');
     updateCartCount();
+    syncLanguageSelectors(); // AGREGAR ESTA LÍNEA
+}
+
+// ============================================
+// SINCRONIZAR SELECTORES DE IDIOMA
+// ============================================
+function syncLanguageSelectors() {
+    const mainSelect = document.getElementById('languageSelect');
+    const mobileSelect = document.getElementById('languageSelectMobile');
+    
+    if (mobileSelect) {
+        mobileSelect.addEventListener('change', function() {
+            changeLanguage(this.value);
+            closeMobileMenu();
+        });
+    }
 }
 
 // ============================================
