@@ -43,22 +43,22 @@
             </div>
 
             <ul id="navMenu">
-                <li><a onclick="showPage('bienvenido')" data-es="Bienvenido" data-en="Welcome">Bienvenido</a></li>
-                <li><a onclick="showPage('inicio')" data-es="Inicio" data-en="Home">Inicio</a></li>
-                <li><a onclick="showPage('menu')" data-es="Menú" data-en="Menu">Menú</a></li>
-                <li><a onclick="showPage('productos')" data-es="Productos" data-en="Products">Productos</a></li>
-                <li><a onclick="showPage('nosotros')" data-es="Más" data-en="More">Más</a></li>
-                
-                <!-- Elementos móviles en el menú -->
-                <li class="mobile-only">
-                    <div class="language-selector-mobile">
-                        <select id="languageSelectMobile" onchange="changeLanguage(this.value)">
-                            <option value="es">🇪🇸 Español</option>
-                            <option value="en">🇺🇸 English</option>
-                        </select>
-                    </div>
-                </li>
-            </ul>
+    <li><a onclick="showPage('bienvenido')" data-es="bienvenido">Bienvenido</a></li>
+    <li><a onclick="showPage('inicio')" data-es="inicio">Inicio</a></li>
+    <li><a onclick="showPage('menu')" data-es="menu">Menú</a></li>
+    <li><a onclick="showPage('productos')" data-es="productos">Productos</a></li>
+    <li><a onclick="showPage('nosotros')" data-es="mas">Más</a></li>
+    
+    <!-- Selector de idioma móvil -->
+    <li class="mobile-only">
+        <div class="language-selector-mobile">
+            <select id="languageSelectMobile">
+                <option value="es">🇪🇸 Español</option>
+                <option value="en">🇺🇸 English</option>
+            </select>
+        </div>
+    </li>
+</ul>
             
             <div class="nav-right">
                 <!-- Search Bar - Expandible en móvil -->
