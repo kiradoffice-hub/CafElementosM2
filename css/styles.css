@@ -1131,7 +1131,7 @@ nav a:hover {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN - MEJORADO PARA IPHONE
+   RESPONSIVE DESIGN - OPTIMIZADO PARA MÓVIL
    ============================================ */
 @media (max-width: 968px) {
     header {
@@ -1327,6 +1327,7 @@ nav a:hover {
         min-width: 44px;
     }
 }
+
 /* ============================================
    CART MODAL (MANTENIDO PERO OPTIMIZADO)
    ============================================ */
