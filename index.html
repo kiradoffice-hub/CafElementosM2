@@ -35,52 +35,48 @@
                 </div>
             </div>
             
-            <!-- Mobile Menu Button - AL FINAL -->
+            <!-- Mobile Menu Button -->
             <div class="mobile-menu-btn" id="mobileMenuBtn">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
 
-            <ul id="navMenu">
-    <li><a onclick="showPage('bienvenido')" data-es="bienvenido">Bienvenido</a></li>
-    <li><a onclick="showPage('inicio')" data-es="inicio">Inicio</a></li>
-    <li><a onclick="showPage('menu')" data-es="menu">Menú</a></li>
-    <li><a onclick="showPage('productos')" data-es="productos">Productos</a></li>
-    <li><a onclick="showPage('nosotros')" data-es="mas">Más</a></li>
-    
-    <!-- Selector de idioma móvil -->
-    <li class="mobile-only">
-        <div class="language-selector-mobile">
-            <select id="languageSelectMobile">
-                <option value="es">🇪🇸 Español</option>
-                <option value="en">🇺🇸 English</option>
-            </select>
-        </div>
-    </li>
-</ul>
-            
-            <div class="nav-right">
-                <!-- Search Bar - Expandible en móvil -->
-                <div class="search-container" id="searchContainer">
-                    <input type="text" id="searchInput" placeholder="Buscar productos..." onkeyup="handleSearch(event)">
-                    <button class="search-btn" onclick="performSearch()">🔍</button>
-                </div>
+            <!-- Cart siempre visible en mobile -->
+            <div class="cart-icon mobile-cart" onclick="toggleCart()">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+
+            <div class="mobile-menu-container" id="mobileMenuContainer">
+                <ul id="navMenu">
+                    <li><a onclick="showPage('bienvenido')">Bienvenido</a></li>
+                    <li><a onclick="showPage('inicio')">Inicio</a></li>
+                    <li><a onclick="showPage('menu')">Menú</a></li>
+                    <li><a onclick="showPage('productos')">Productos</a></li>
+                    <li><a onclick="showPage('nosotros')">Más</a></li>
+                </ul>
                 
-                <!-- Language Selector - Solo en escritorio -->
-                <div class="language-selector desktop-only">
-                    <select id="languageSelect" onchange="changeLanguage(this.value)">
-                        <option value="es">🇪🇸 ES</option>
-                        <option value="en">🇺🇸 EN</option>
-                    </select>
-                </div>
-                
-                <span class="principal-text desktop-only">Principal</span>
-                
-                <!-- Cart Icon - Reducido en móvil -->
-                <div class="cart-icon" onclick="toggleCart()">
-                    🛒
-                    <span class="cart-count" id="cartCount">0</span>
+                <div class="nav-right">
+                    <!-- Language Selector -->
+                    <div class="language-selector">
+                        <select id="languageSelect" onchange="changeLanguage(this.value)">
+                            <option value="es">🇪🇸 ES</option>
+                            <option value="en">🇺🇸 EN</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Buscar productos..." onkeyup="handleSearch(event)">
+                        <button class="search-btn" onclick="performSearch()">🔍</button>
+                    </div>
+                    
+                    <span class="principal-text">Principal</span>
+                    <div class="cart-icon desktop-cart" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count" id="cartCount2">0</span>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -246,26 +242,6 @@
 
     <!-- PAGE: MENÚ -->
     <div id="page-menu" class="page-content hidden">
-        <!-- Search Bar Section -->
-        <section class="search-section">
-            <div class="search-info">
-                <div class="last-update">
-                    <span>Última actualización: <span id="lastUpdateDateMenu">15/01/2025</span></span>
-                </div>
-                <div class="search-main">
-                    <input type="text" id="mainSearchInputMenu" placeholder="Buscar café, bebidas, productos..." onkeyup="handleMainSearch(event)">
-                    <button class="search-main-btn" onclick="performMainSearch()">🔍 Buscar</button>
-                </div>
-                <div class="search-categories">
-                    <button class="category-btn active" onclick="filterByCategory('all')">Todos</button>
-                    <button class="category-btn" onclick="filterByCategory('coffee')">Café a Granel</button>
-                    <button class="category-btn" onclick="filterByCategory('drinks')">Bebidas</button>
-                </div>
-                <!-- Search Results Container -->
-                <div id="searchResultsMenu"></div>
-            </div>
-        </section>
-
         <div class="menu-section">
             <div class="menu-hero">
                 <h1>Nuestro Menú</h1>
@@ -291,27 +267,7 @@
 
     <!-- PAGE: PRODUCTOS -->
     <div id="page-productos" class="page-content hidden">
-        <!-- Search Bar Section -->
-        <section class="search-section">
-            <div class="search-info">
-                <div class="last-update">
-                    <span>Última actualización: <span id="lastUpdateDateProductos">15/01/2025</span></span>
-                </div>
-                <div class="search-main">
-                    <input type="text" id="mainSearchInputProductos" placeholder="Buscar café, bebidas, productos..." onkeyup="handleMainSearch(event)">
-                    <button class="search-main-btn" onclick="performMainSearch()">🔍 Buscar</button>
-                </div>
-                <div class="search-categories">
-                    <button class="category-btn active" onclick="filterByCategory('all')">Todos</button>
-                    <button class="category-btn" onclick="filterByCategory('coffee')">Café a Granel</button>
-                    <button class="category-btn" onclick="filterByCategory('drinks')">Bebidas</button>
-                </div>
-                <!-- Search Results Container -->
-                <div id="searchResultsProductos"></div>
-            </div>
-        </section>
-
-        <section style="padding: 2rem 3rem 4rem; background: white;">
+        <section style="padding: 6rem 3rem 4rem; background: white;">
             <div style="max-width: 1400px; margin: 0 auto;">
                 <h2>Nuestros Productos</h2>
                 <div class="products-grid" id="productsGrid"></div>
@@ -321,27 +277,7 @@
 
     <!-- PAGE: NOSOTROS -->
     <div id="page-nosotros" class="page-content hidden">
-        <!-- Search Bar Section -->
-        <section class="search-section">
-            <div class="search-info">
-                <div class="last-update">
-                    <span>Última actualización: <span id="lastUpdateDateNosotros">15/01/2025</span></span>
-                </div>
-                <div class="search-main">
-                    <input type="text" id="mainSearchInputNosotros" placeholder="Buscar café, bebidas, productos..." onkeyup="handleMainSearch(event)">
-                    <button class="search-main-btn" onclick="performMainSearch()">🔍 Buscar</button>
-                </div>
-                <div class="search-categories">
-                    <button class="category-btn active" onclick="filterByCategory('all')">Todos</button>
-                    <button class="category-btn" onclick="filterByCategory('coffee')">Café a Granel</button>
-                    <button class="category-btn" onclick="filterByCategory('drinks')">Bebidas</button>
-                </div>
-                <!-- Search Results Container -->
-                <div id="searchResultsNosotros"></div>
-            </div>
-        </section>
-
-        <section class="about-section" style="min-height: calc(100vh - 80px); padding: 2rem 3rem;">
+        <section class="about-section" style="min-height: calc(100vh - 80px); padding: 6rem 3rem;">
             <div class="about-container">
                 <div class="about-content">
                     <h2>Acerca de Nosotros</h2>
@@ -383,12 +319,12 @@
                     </div>
                     <div class="contact-form">
                         <div class="form-row">
-                            <input type="text" placeholder="Nombre" id="contactNameNosotros">
-                            <input type="text" placeholder="Apellido" id="contactLastNameNosotros">
+                            <input type="text" placeholder="Nombre">
+                            <input type="text" placeholder="Apellido">
                         </div>
-                        <input type="email" placeholder="Correo" id="contactEmailNosotros">
-                        <input type="tel" placeholder="Teléfono" id="contactPhoneNosotros">
-                        <textarea placeholder="Mensaje" id="contactMessageNosotros"></textarea>
+                        <input type="email" placeholder="Correo">
+                        <input type="tel" placeholder="Teléfono">
+                        <textarea placeholder="Mensaje"></textarea>
                         <button class="submit-btn" onclick="sendContact()">Enviar</button>
                     </div>
                 </div>
@@ -534,135 +470,134 @@
                 <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">📦 Información de Envío</h3>
                 
                 <div class="form-group">
-                    <label for="checkoutName">Nombre Completo *</label>
+                    <label>Nombre Completo *</label>
                     <input type="text" required id="checkoutName">
                 </div>
                 <div class="form-group">
-                    <label for="checkoutEmail">Correo Electrónico *</label>
+                    <label>Correo Electrónico *</label>
                     <input type="email" required id="checkoutEmail">
                 </div>
                 <div class="form-group">
-                    <label for="checkoutPhone">Teléfono *</label>
+                    <label>Teléfono *</label>
                     <input type="tel" required id="checkoutPhone">
                 </div>
                 <div class="form-group">
-                    <label for="checkoutAddress">Dirección de Entrega *</label>
+                    <label>Dirección de Entrega *</label>
                     <input type="text" required id="checkoutAddress">
                 </div>
                 <div class="form-group">
-                    <label for="checkoutCity">Ciudad *</label>
+                    <label>Ciudad *</label>
                     <input type="text" required id="checkoutCity">
                 </div>
                 <div class="form-group">
-                    <label for="checkoutPostal">Código Postal *</label>
+                    <label>Código Postal *</label>
                     <input type="text" required id="checkoutPostal">
                 </div>
 
                 <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1.1rem;">💳 Método de Pago</h3>
-                
-                <div class="payment-methods">
-                    <label class="payment-option">
-                        <input type="radio" name="paymentMethod" value="card" checked onchange="togglePaymentForm('card')">
-                        <span>💳 Tarjeta de Crédito/Débito</span>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="paymentMethod" value="paypal" onchange="togglePaymentForm('paypal')">
-                        <span style="display: inline-flex; align-items: center; gap: 8px;">
-                            <span style="background: #0070ba; color: white; padding: 4px 12px; border-radius: 4px; font-weight: 600;">PayPal</span>
-                        </span>
-                    </label>
-                </div>
+<div class="payment-methods">
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="card" checked onchange="togglePaymentForm('card')">
+                    <span>💳 Tarjeta de Crédito/Débito</span>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="paypal" onchange="togglePaymentForm('paypal')">
+                    <span style="display: inline-flex; align-items: center; gap: 8px;">
+                        <span style="background: #0070ba; color: white; padding: 4px 12px; border-radius: 4px; font-weight: 600;">PayPal</span>
+                    </span>
+                </label>
+            </div>
 
-                <div id="cardPaymentForm">
+            <div id="cardPaymentForm">
+                <div class="form-group">
+                    <label>Número de Tarjeta *</label>
+                    <input type="text" required id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
-                        <label for="cardNumber">Número de Tarjeta *</label>
-                        <input type="text" required id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        <label>Fecha de Vencimiento *</label>
+                        <input type="text" required id="cardExpiry" placeholder="MM/AA" maxlength="5">
                     </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group">
-                            <label for="cardExpiry">Fecha de Vencimiento *</label>
-                            <input type="text" required id="cardExpiry" placeholder="MM/AA" maxlength="5">
-                        </div>
-                        <div class="form-group">
-                            <label for="cardCVV">CVV *</label>
-                            <input type="text" required id="cardCVV" placeholder="123" maxlength="4">
-                        </div>
-                    </div>
-                    
                     <div class="form-group">
-                        <label for="cardName">Nombre en la Tarjeta *</label>
-                        <input type="text" required id="cardName">
-                    </div>
-                </div>
-
-                <div id="paypalPaymentForm" style="display: none;">
-                    <div class="paypal-info">
-                        <p style="margin-bottom: 1rem; color: #666;">Al confirmar el pedido, serás redirigido a PayPal para completar el pago de forma segura.</p>
-                        <div class="form-group">
-                            <label for="paypalEmail">Correo de PayPal *</label>
-                            <input type="email" id="paypalEmail" placeholder="tu@email.com">
-                        </div>
+                        <label>CVV *</label>
+                        <input type="text" required id="cardCVV" placeholder="123" maxlength="4">
                     </div>
                 </div>
                 
-                <div class="order-summary">
-                    <h3>📋 Resumen del Pedido</h3>
-                    <div id="orderSummaryItems"></div>
-                    <div class="summary-total">
-                        <span>Total:</span>
-                        <span id="orderTotal">$0.00 MXN</span>
-                    </div>
-                </div>
-                
-                <button type="button" class="confirm-btn" onclick="confirmOrder()">✓ Confirmar Pedido</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- SUCCESS MODAL -->
-    <div class="cart-overlay" id="successOverlay"></div>
-    <div class="success-modal" id="successModal">
-        <div class="success-icon">✓</div>
-        <h2>¡Pedido Confirmado!</h2>
-        <p>Tu pedido ha sido procesado exitosamente.</p>
-        <p id="paymentMethodText">Hemos enviado la confirmación y el ticket a tu correo electrónico.</p>
-        <p style="margin-top: 1rem;"><strong>Número de Orden:</strong></p>
-        <p style="font-size: 1.5rem; color: #F59026; font-weight: 700;" id="orderNumber"></p>
-        <button class="close-modal" onclick="closeSuccess()">Continuar Comprando</button>
-    </div>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <p style="color: white; font-size: 0.95rem; margin-bottom: 1rem;">cafelementos@gmail.com</p>
-                <p style="color: white; font-size: 0.95rem; margin-bottom: 2rem;">Villahermosa, Tab., México</p>
-                <p style="color: white; font-size: 0.95rem; margin-bottom: 0.5rem;">993 426 3253</p>
-                <div class="social-links">
-                    <a href="https://facebook.com/cafelementos" target="_blank" title="Facebook">📘</a>
-                    <a href="https://instagram.com/cafelementos" target="_blank" title="Instagram">📷</a>
-                    <a href="https://twitter.com/cafelementos" target="_blank" title="Twitter">✖️</a>
-                    <a href="https://tiktok.com/@cafelementos" target="_blank" title="TikTok">🎵</a>
+                <div class="form-group">
+                    <label>Nombre en la Tarjeta *</label>
+                    <input type="text" required id="cardName">
                 </div>
             </div>
-            <div class="footer-section">
-                <ul>
-                    <li><a onclick="showPage('privacy')">Política de Privacidad</a></li>
-                    <li><a href="#">Declaración de Accesibilidad</a></li>
-                    <li><a href="#">Términos y Condiciones</a></li>
-                    <li><a href="#">Política de Reembolso</a></li>
-                    <li><a href="#">Política de Envío</a></li>
-                </ul>
+
+            <div id="paypalPaymentForm" style="display: none;">
+                <div class="paypal-info">
+                    <p style="margin-bottom: 1rem; color: #666;">Al confirmar el pedido, serás redirigido a PayPal para completar el pago de forma segura.</p>
+                    <div class="form-group">
+                        <label>Correo de PayPal *</label>
+                        <input type="email" id="paypalEmail" placeholder="tu@email.com">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-summary">
+                <h3>📋 Resumen del Pedido</h3>
+                <div id="orderSummaryItems"></div>
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span id="orderTotal">$0.00 MXN</span>
+                </div>
+            </div>
+            
+            <button type="button" class="confirm-btn" onclick="confirmOrder()">✓ Confirmar Pedido</button>
+        </form>
+    </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="cart-overlay" id="successOverlay"></div>
+<div class="success-modal" id="successModal">
+    <div class="success-icon">✓</div>
+    <h2>¡Pedido Confirmado!</h2>
+    <p>Tu pedido ha sido procesado exitosamente.</p>
+    <p id="paymentMethodText">Hemos enviado la confirmación y el ticket a tu correo electrónico.</p>
+    <p style="margin-top: 1rem;"><strong>Número de Orden:</strong></p>
+    <p style="font-size: 1.5rem; color: #F59026; font-weight: 700;" id="orderNumber"></p>
+    <button class="close-modal" onclick="closeSuccess()">Continuar Comprando</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-info">
+            <p style="color: white; font-size: 0.95rem; margin-bottom: 1rem;">cafelementos@gmail.com</p>
+            <p style="color: white; font-size: 0.95rem; margin-bottom: 2rem;">Villahermosa, Tab., México</p>
+            <p style="color: white; font-size: 0.95rem; margin-bottom: 0.5rem;">993 426 3253</p>
+            <div class="social-links">
+                <a href="https://facebook.com/cafelementos" target="_blank" title="Facebook">📘</a>
+                <a href="https://instagram.com/cafelementos" target="_blank" title="Instagram">📷</a>
+                <a href="https://twitter.com/cafelementos" target="_blank" title="Twitter">✖️</a>
+                <a href="https://tiktok.com/@cafelementos" target="_blank" title="TikTok">🎵</a>
             </div>
         </div>
-        <div class="footer-logo">Café Elementos</div>
-        <div class="footer-bottom">
-            © 2025 Café Elementos. Todos los derechos reservados.
+        <div class="footer-section">
+            <ul>
+                <li><a onclick="showPage('privacy')">Política de Privacidad</a></li>
+                <li><a href="#">Declaración de Accesibilidad</a></li>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Reembolso</a></li>
+                <li><a href="#">Política de Envío</a></li>
+            </ul>
         </div>
-    </footer>
+    </div>
+    <div class="footer-logo">Café Elementos</div>
+    <div class="footer-bottom">
+        © 2025 Café Elementos. Todos los derechos reservados.
+    </div>
+</footer>
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
+<!-- JavaScript -->
+<script src="js/main.js"></script>
 </body>
 </html>
