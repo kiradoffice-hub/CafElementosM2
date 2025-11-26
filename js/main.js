@@ -1250,3 +1250,32 @@ if (cardCVVInput) {
     });
 }
 }
+function createProductCard(product, containerId) {
+    const selectedWeight = selectedWeights[product.id] || '1/4';
+    const currentPrice = product.prices[selectedWeight];
+    const t = translations[currentLanguage];
+    
+    return `
+        <div class="product-card" data-product-id="${product.id}">
+            <div class="product-badge">${t.product_badge}</div>
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}" 
+                    onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%\\'>☕</div>'">
+                <button class="add-to-cart-btn" onclick="addToCart(${product.id})" title="${t.add_to_cart}">+</button>
+            </div>
+
+            <h3>${product.name}</h3>
+            <p>${product.origin}</p>
+
+            <select onchange="changeWeight(${product.id}, this.value)">
+                ${Object.keys(product.prices).map(weight => 
+                    `<option value="${weight}" ${selectedWeight === weight ? 'selected' : ''}>
+                        ${weight} - $${product.prices[weight]}
+                    </option>`
+                ).join('')}
+            </select>
+
+            <span class="product-price">$${currentPrice}</span>
+        </div>
+    `;
+}
