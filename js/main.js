@@ -420,13 +420,15 @@ function toggleMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenuContainer = document.getElementById('mobileMenuContainer');
     
-    mobileMenuBtn.classList.toggle('active');
-    mobileMenuContainer.classList.toggle('active');
-    
-    if (mobileMenuContainer.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
+    if (mobileMenuBtn && mobileMenuContainer) {
+        mobileMenuBtn.classList.toggle('active');
+        mobileMenuContainer.classList.toggle('active');
+        
+        if (mobileMenuContainer.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 }
 
@@ -434,9 +436,11 @@ function closeMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenuContainer = document.getElementById('mobileMenuContainer');
     
-    mobileMenuBtn.classList.remove('active');
-    mobileMenuContainer.classList.remove('active');
-    document.body.style.overflow = '';
+    if (mobileMenuBtn && mobileMenuContainer) {
+        mobileMenuBtn.classList.remove('active');
+        mobileMenuContainer.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 }
 
 // ============================================
@@ -467,6 +471,10 @@ function updateLanguage() {
     if (searchInput) searchInput.placeholder = t.search.placeholder;
     if (mainSearchInput) mainSearchInput.placeholder = t.search.mainPlaceholder;
     
+    // Actualizar selector de idioma
+    const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) languageSelect.value = currentLang;
+    
     // Actualizar página de bienvenida
     updateWelcomePage(t);
     
@@ -481,6 +489,9 @@ function updateLanguage() {
     
     // Actualizar carrito
     updateCartTexts(t);
+    
+    // Actualizar checkout
+    updateCheckoutTexts(t);
     
     // Actualizar chat
     updateChatTexts(t);
@@ -525,6 +536,15 @@ function updateHomePage(t) {
     const sectionTitle = document.querySelector('.section-title h2');
     if (sectionTitle) {
         sectionTitle.innerHTML = `${t.section.explore}<br>${t.section.ourCoffee}`;
+    }
+    
+    const sectionSubtitle = document.querySelector('.section-title p');
+    if (sectionSubtitle) {
+        const viewMenuLink = sectionSubtitle.querySelector('a');
+        if (viewMenuLink) {
+            viewMenuLink.textContent = t.section.viewMenu;
+        }
+        sectionSubtitle.innerHTML = `${t.section.subtitle} <a onclick="showPage('productos')">${t.section.viewMenu}</a>`;
     }
     
     // Actualizar "Acerca de"
@@ -613,22 +633,78 @@ function updateCartTexts(t) {
     if (checkoutBtn) checkoutBtn.textContent = t.cart.checkout;
 }
 
+function updateCheckoutTexts(t) {
+    const checkoutTitle = document.querySelector('.checkout-header h2');
+    if (checkoutTitle) checkoutTitle.textContent = t.checkout.title;
+    
+    // Actualizar labels del formulario
+    const labels = document.querySelectorAll('.checkout-form label');
+    labels.forEach(label => {
+        const text = label.textContent.trim();
+        if (text.includes('Nombre Completo')) label.textContent = t.checkout.name;
+        else if (text.includes('Correo Electrónico')) label.textContent = t.checkout.email;
+        else if (text.includes('Teléfono')) label.textContent = t.checkout.phone;
+        else if (text.includes('Dirección de Entrega')) label.textContent = t.checkout.address;
+        else if (text.includes('Ciudad')) label.textContent = t.checkout.city;
+        else if (text.includes('Código Postal')) label.textContent = t.checkout.postal;
+        else if (text.includes('Número de Tarjeta')) label.textContent = t.checkout.cardNumber;
+        else if (text.includes('Fecha de Vencimiento')) label.textContent = t.checkout.cardExpiry;
+        else if (text.includes('CVV')) label.textContent = t.checkout.cardCVV;
+        else if (text.includes('Nombre en la Tarjeta')) label.textContent = t.checkout.cardName;
+        else if (text.includes('Correo de PayPal')) label.textContent = t.checkout.paypalEmail;
+    });
+    
+    // Actualizar placeholders
+    const placeholders = document.querySelectorAll('.checkout-form input');
+    placeholders.forEach(input => {
+        const placeholder = input.placeholder;
+        if (placeholder.includes('1234 5678 9012 3456')) input.placeholder = '1234 5678 9012 3456';
+        else if (placeholder.includes('MM/AA')) input.placeholder = 'MM/AA';
+        else if (placeholder.includes('123')) input.placeholder = '123';
+        else if (placeholder.includes('tu@email.com')) input.placeholder = 'your@email.com';
+    });
+    
+    // Actualizar textos de secciones
+    const sections = document.querySelectorAll('.checkout-form h3');
+    sections.forEach(section => {
+        const text = section.textContent;
+        if (text.includes('Información de Envío')) section.textContent = t.checkout.shipping;
+        else if (text.includes('Método de Pago')) section.textContent = t.checkout.payment;
+        else if (text.includes('Resumen del Pedido')) section.textContent = t.checkout.orderSummary;
+    });
+    
+    // Actualizar opciones de pago
+    const paymentOptions = document.querySelectorAll('.payment-option span');
+    paymentOptions.forEach(option => {
+        if (option.textContent.includes('Tarjeta')) option.textContent = t.checkout.card;
+    });
+    
+    // Actualizar botón de confirmar
+    const confirmBtn = document.querySelector('.confirm-btn');
+    if (confirmBtn) confirmBtn.textContent = t.checkout.confirm;
+}
+
 function updateChatTexts(t) {
     const chatText = document.querySelector('.chat-text');
     const chatTitle = document.querySelector('.chat-header h3');
     const chatStatus = document.querySelector('.chat-status');
     const chatInput = document.getElementById('chatInput');
+    const chatWelcome = document.querySelector('.chat-message.received p');
     
     if (chatText) chatText.textContent = t.chat.button;
     if (chatTitle) chatTitle.textContent = t.chat.title;
     if (chatStatus) chatStatus.textContent = t.chat.status;
     if (chatInput) chatInput.placeholder = t.chat.placeholder;
+    if (chatWelcome) chatWelcome.textContent = t.chat.welcome;
 }
 
 function updateFooterTexts(t) {
     const footerLinks = document.querySelectorAll('.footer-section a');
     if (footerLinks.length >= 1) {
         footerLinks[0].textContent = t.footer.privacy;
+        if (footerLinks.length >= 3) {
+            footerLinks[2].textContent = t.footer.terms;
+        }
     }
     
     const footerBottom = document.querySelector('.footer-bottom');
@@ -654,6 +730,8 @@ function showPage(pageName) {
         currentPage = pageName;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    
+    closeMobileMenu();
 }
 
 // ============================================
@@ -674,406 +752,431 @@ function createProductCard(product, containerId) {
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
                 <div class="product-origin">${product.origin}</div>
-<div class="product-price" id="price-${containerId}-${product.id}">$${currentPrice}.00 MXN</div>
-<div class="product-weight">
-${Object.keys(product.prices).map(weight =>                         <button class="weight-btn ${selectedWeight === weight ? 'active' : ''}"                                  onclick="selectWeight(${product.id}, '${weight}', '${containerId}')">                             ${weight === '1kg' ? '1 kg' : weight + ' kg'}                         </button>                    ).join('')}
-</div>
-</div>
-</div>
-`;
+                <div class="product-price" id="price-${containerId}-${product.id}">$${currentPrice}.00 MXN</div>
+                <div class="product-weight">
+                    ${Object.keys(product.prices).map(weight => 
+                        `<button class="weight-btn ${selectedWeight === weight ? 'active' : ''}" 
+                                onclick="selectWeight(${product.id}, '${weight}', '${containerId}')">
+                            ${weight === '1kg' ? '1 kg' : weight + ' kg'}
+                        </button>`
+                    ).join('')}
+                </div>
+            </div>
+        </div>
+    `;
 }
+
 function renderProducts() {
-const container = document.getElementById('productsGrid');
-if (container) {
-container.innerHTML = products.map(product => createProductCard(product, 'productos')).join('');
+    const container = document.getElementById('productsGrid');
+    if (container) {
+        container.innerHTML = products.map(product => createProductCard(product, 'productos')).join('');
+    }
 }
-}
+
 function renderStoreProducts() {
-const container = document.getElementById('storeProductsGrid');
-if (container) {
-container.innerHTML = products.map(product => createProductCard(product, 'tienda')).join('');
-const totalProducts = document.getElementById('totalProducts');
-if (totalProducts) totalProducts.textContent = products.length;
+    const container = document.getElementById('storeProductsGrid');
+    if (container) {
+        container.innerHTML = products.map(product => createProductCard(product, 'tienda')).join('');
+        const totalProducts = document.getElementById('totalProducts');
+        if (totalProducts) totalProducts.textContent = products.length;
+    }
 }
-}
+
 // ============================================
 // RENDERIZADO DE MENÚ
 // ============================================
 function createMenuItem(item) {
-const hasMultipleSizes = item.prices && typeof item.prices === 'object';
-const selectedSize = selectedMenuSizes[item.id];
-const currentPrice = hasMultipleSizes ? item.prices[selectedSize] : item.price;
-const t = translations[currentLang];
-return `
-    <div class="menu-item" data-menu-id="${item.id}">
-        <div class="menu-item-header">
-            <div class="menu-item-name">${item.name}</div>
-            <div class="menu-item-price" id="menu-price-${item.id}">$${currentPrice}.00</div>
-        </div>
-        ${hasMultipleSizes ? `
-            <div class="menu-item-sizes">
-                ${Object.keys(item.prices).map(size => `
-                    <button class="size-btn ${selectedSize === size ? 'active' : ''}" 
-                            onclick="selectMenuSize(${item.id}, '${size}')">
-                        ${size}
-                    </button>
-                `).join('')}
+    const hasMultipleSizes = item.prices && typeof item.prices === 'object';
+    const selectedSize = selectedMenuSizes[item.id];
+    const currentPrice = hasMultipleSizes ? item.prices[selectedSize] : item.price;
+    const t = translations[currentLang];
+    
+    return `
+        <div class="menu-item" data-menu-id="${item.id}">
+            <div class="menu-item-header">
+                <div class="menu-item-name">${item.name}</div>
+                <div class="menu-item-price" id="menu-price-${item.id}">$${currentPrice}.00</div>
             </div>
-        ` : ''}
-        <button class="menu-item-add" onclick="addMenuToCart(${item.id})">
-            ${t.menu.addToCart}
-        </button>
-    </div>
-`;
+            ${hasMultipleSizes ? `
+                <div class="menu-item-sizes">
+                    ${Object.keys(item.prices).map(size => `
+                        <button class="size-btn ${selectedSize === size ? 'active' : ''}" 
+                                onclick="selectMenuSize(${item.id}, '${size}')">
+                            ${size}
+                        </button>
+                    `).join('')}
+                </div>
+            ` : ''}
+            <button class="menu-item-add" onclick="addMenuToCart(${item.id})">
+                ${t.menu.addToCart}
+            </button>
+        </div>
+    `;
 }
+
 function renderMenuItems() {
-const frappesContainer = document.getElementById('menuFrappes');
-const hotCoffeeContainer = document.getElementById('menuHotCoffee');
-const teasContainer = document.getElementById('menuTeas');
-if (frappesContainer) {
-    frappesContainer.innerHTML = menuItems.frappes.map(item => createMenuItem(item)).join('');
+    const frappesContainer = document.getElementById('menuFrappes');
+    const hotCoffeeContainer = document.getElementById('menuHotCoffee');
+    const teasContainer = document.getElementById('menuTeas');
+    
+    if (frappesContainer) {
+        frappesContainer.innerHTML = menuItems.frappes.map(item => createMenuItem(item)).join('');
+    }
+    
+    if (hotCoffeeContainer) {
+        hotCoffeeContainer.innerHTML = menuItems.hotCoffee.map(item => createMenuItem(item)).join('');
+    }
+    
+    if (teasContainer) {
+        teasContainer.innerHTML = menuItems.teas.map(item => createMenuItem(item)).join('');
+    }
 }
 
-if (hotCoffeeContainer) {
-    hotCoffeeContainer.innerHTML = menuItems.hotCoffee.map(item => createMenuItem(item)).join('');
-}
-
-if (teasContainer) {
-    teasContainer.innerHTML = menuItems.teas.map(item => createMenuItem(item)).join('');
-}
-}
 // ============================================
 // SELECCIÓN DE PESO Y TAMAÑO
 // ============================================
 function selectWeight(productId, weight, containerId) {
-selectedWeights[productId] = weight;
-const product = products.find(p => p.id === productId);
-const priceEl = document.getElementById(`price-${containerId}-${productId}`);
-if (priceEl) {
-    priceEl.textContent = `$${product.prices[weight]}.00 MXN`;
-}
-
-const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
-if (card) {
-    const container = card.closest(`#page-${containerId === 'productos' ? 'productos' : 'tienda'}`);
-    if (container) {
-        const buttons = container.querySelectorAll(`.product-card[data-product-id="${productId}"] .weight-btn`);
+    selectedWeights[productId] = weight;
+    const product = products.find(p => p.id === productId);
+    const priceEl = document.getElementById(`price-${containerId}-${productId}`);
+    if (priceEl) {
+        priceEl.textContent = `$${product.prices[weight]}.00 MXN`;
+    }
+    
+    const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+    if (card) {
+        const buttons = card.querySelectorAll('.weight-btn');
         buttons.forEach(btn => {
             btn.classList.remove('active');
-            if (btn.textContent.trim().includes(weight)) {
+            if (btn.textContent.trim().includes(weight === '1kg' ? '1 kg' : weight + ' kg')) {
                 btn.classList.add('active');
             }
         });
     }
 }
-}
+
 function selectMenuSize(itemId, size) {
-selectedMenuSizes[itemId] = size;
-const item = Object.values(menuItems).flat().find(i => i.id === itemId);
-const priceEl = document.getElementById(`menu-price-${itemId}`);
-if (priceEl && item.prices) {
-    priceEl.textContent = `$${item.prices[size]}.00`;
+    selectedMenuSizes[itemId] = size;
+    const item = Object.values(menuItems).flat().find(i => i.id === itemId);
+    const priceEl = document.getElementById(`menu-price-${itemId}`);
+    if (priceEl && item.prices) {
+        priceEl.textContent = `$${item.prices[size]}.00`;
+    }
+    
+    const menuItem = document.querySelector(`.menu-item[data-menu-id="${itemId}"]`);
+    if (menuItem) {
+        const buttons = menuItem.querySelectorAll('.size-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.textContent.trim() === size) {
+                btn.classList.add('active');
+            }
+        });
+    }
 }
 
-const menuItem = document.querySelector(`.menu-item[data-menu-id="${itemId}"]`);
-if (menuItem) {
-    const buttons = menuItem.querySelectorAll('.size-btn');
-    buttons.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.textContent.trim() === size) {
-            btn.classList.add('active');
-        }
-    });
-}
-}
 // ============================================
 // CARRITO
 // ============================================
 function addToCart(productId) {
-const product = products.find(p => p.id === productId);
-const weight = selectedWeights[productId] || '1/4';
-const existingItem = cart.find(item => item.id === productId && item.weight === weight && item.type === 'product');
-if (existingItem) {
-    existingItem.quantity++;
-} else {
-    cart.push({
-        id: productId,
-        type: 'product',
-        name: product.name,
-        origin: product.origin,
-        weight: weight,
-        price: product.prices[weight],
-        quantity: 1,
-        image: product.image
-    });
+    const product = products.find(p => p.id === productId);
+    const weight = selectedWeights[productId] || '1/4';
+    const existingItem = cart.find(item => item.id === productId && item.weight === weight && item.type === 'product');
+    
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({
+            id: productId,
+            type: 'product',
+            name: product.name,
+            origin: product.origin,
+            weight: weight,
+            price: product.prices[weight],
+            quantity: 1,
+            image: product.image
+        });
+    }
+    
+    updateCart();
+    const t = translations[currentLang];
+    showNotification(`${product.name} (${weight}) ${t.cart.added}`, 'success');
 }
 
-updateCart();
-const t = translations[currentLang];
-showNotification(`${product.name} (${weight}) ${t.cart.added}`, 'success');
-}
 function addMenuToCart(itemId) {
-const item = Object.values(menuItems).flat().find(i => i.id === itemId);
-const size = selectedMenuSizes[itemId];
-const price = item.prices ? item.prices[size] : item.price;
-const sizeText = item.prices ? size : 'Único';
-const existingItem = cart.find(cartItem => 
-    cartItem.id === itemId && 
-    cartItem.size === sizeText && 
-    cartItem.type === 'menu'
-);
+    const item = Object.values(menuItems).flat().find(i => i.id === itemId);
+    const size = selectedMenuSizes[itemId];
+    const price = item.prices ? item.prices[size] : item.price;
+    const sizeText = item.prices ? size : 'Único';
+    const existingItem = cart.find(cartItem => 
+        cartItem.id === itemId && 
+        cartItem.size === sizeText && 
+        cartItem.type === 'menu'
+    );
+    
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({
+            id: itemId,
+            type: 'menu',
+            name: item.name,
+            size: sizeText,
+            price: price,
+            quantity: 1,
+            category: item.category
+        });
+    }
+    
+    updateCart();
+    const t = translations[currentLang];
+    showNotification(`${item.name} (${sizeText}) ${t.cart.added}`, 'success');
+}
 
-if (existingItem) {
-    existingItem.quantity++;
-} else {
-    cart.push({
-        id: itemId,
-        type: 'menu',
-        name: item.name,
-        size: sizeText,
-        price: price,
-        quantity: 1,
-        category: item.category
+function removeFromCart(index) {
+    const item = cart[index];
+    cart.splice(index, 1);
+    updateCart();
+    const t = translations[currentLang];
+    showNotification(`${item.name} ${t.notifications.removed}`, 'success');
+}
+
+function updateQuantity(index, change) {
+    cart[index].quantity += change;
+    if (cart[index].quantity <= 0) {
+        removeFromCart(index);
+    } else {
+        updateCart();
+    }
+}
+
+function updateCart() {
+    updateCartCount();
+    renderCartItems();
+    updateCartTotal();
+}
+
+function updateCartCount() {
+    const cartCounts = document.querySelectorAll('.cart-count');
+    const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartCounts.forEach(count => {
+        count.textContent = total;
     });
 }
 
-updateCart();
-const t = translations[currentLang];
-showNotification(`${item.name} (${sizeText}) ${t.cart.added}`, 'success');
-}
-function removeFromCart(index) {
-const item = cart[index];
-cart.splice(index, 1);
-updateCart();
-const t = translations[currentLang];
-showNotification(${item.name} ${t.notifications.removed}, 'success');
-}
-function updateQuantity(index, change) {
-cart[index].quantity += change;
-if (cart[index].quantity <= 0) {
-removeFromCart(index);
-} else {
-updateCart();
-}
-}
-function updateCart() {
-updateCartCount();
-renderCartItems();
-updateCartTotal();
-}
-function updateCartCount() {
-const cartCounts = document.querySelectorAll('.cart-count');
-const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-cartCounts.forEach(count => {
-count.textContent = total;
-});
-}
 function renderCartItems() {
-const cartItems = document.getElementById('cartItems');
-if (!cartItems) return;
-const t = translations[currentLang];
-
-if (cart.length === 0) {
-    cartItems.innerHTML = `
-        <div class="empty-cart">
-            <p style="font-size: 3rem; margin-bottom: 1rem;">🛒</p>
-            <p>${t.cart.empty}</p>
-            <p style="font-size: 0.85rem; margin-top: 0.5rem;">${t.cart.emptyMessage}</p>
-        </div>
-    `;
-    return;
-}
-
-cartItems.innerHTML = cart.map((item, index) => {
-    const displayInfo = item.type === 'product' 
-        ? `${item.weight} kg` 
-        : item.size;
+    const cartItems = document.getElementById('cartItems');
+    if (!cartItems) return;
+    const t = translations[currentLang];
     
-    const imageHTML = item.image 
-        ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:2.5rem\\'>☕</div>'">`
-        : '<div style="font-size:2.5rem;">☕</div>';
-    
-    return `
-        <div class="cart-item">
-            <div class="cart-item-image">
-                ${imageHTML}
+    if (cart.length === 0) {
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                <p style="font-size: 3rem; margin-bottom: 1rem;">🛒</p>
+                <p>${t.cart.empty}</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">${t.cart.emptyMessage}</p>
             </div>
-            <div class="cart-item-info">
-                <div class="cart-item-name">${item.name}</div>
-                <div class="cart-item-weight">${displayInfo}</div>
-                <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)} MXN</div>
-                <div class="cart-item-quantity">
-                    <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
-                    <span>${item.quantity}</span>
-                    <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+        `;
+        return;
+    }
+    
+    cartItems.innerHTML = cart.map((item, index) => {
+        const displayInfo = item.type === 'product' 
+            ? `${item.weight} kg` 
+            : item.size;
+        
+        const imageHTML = item.image 
+            ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:2.5rem\\'>☕</div>'">`
+            : '<div style="font-size:2.5rem;">☕</div>';
+        
+        return `
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    ${imageHTML}
                 </div>
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-weight">${displayInfo}</div>
+                    <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)} MXN</div>
+                    <div class="cart-item-quantity">
+                        <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                        <span>${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                    </div>
+                </div>
+                <button class="cart-item-remove" onclick="removeFromCart(${index})" title="Eliminar">✕</button>
             </div>
-            <button class="cart-item-remove" onclick="removeFromCart(${index})" title="Eliminar">✕</button>
-        </div>
-    `;
-}).join('');
+        `;
+    }).join('');
 }
+
 function updateCartTotal() {
-const cartTotal = document.getElementById('cartTotal');
-if (cartTotal) {
-const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-cartTotal.textContent = $${total.toFixed(2)} MXN;
+    const cartTotal = document.getElementById('cartTotal');
+    if (cartTotal) {
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        cartTotal.textContent = `$${total.toFixed(2)} MXN`;
+    }
 }
-}
+
 function toggleCart() {
-const modal = document.getElementById('cartModal');
-const overlay = document.getElementById('cartOverlay');
-modal.classList.toggle('active');
-overlay.classList.toggle('active');
-if (modal.classList.contains('active')) {
-    document.body.style.overflow = 'hidden';
-} else {
-    document.body.style.overflow = '';
+    const modal = document.getElementById('cartModal');
+    const overlay = document.getElementById('cartOverlay');
+    modal.classList.toggle('active');
+    overlay.classList.toggle('active');
+    if (modal.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
 }
-}
+
 // ============================================
 // CHECKOUT
 // ============================================
 function openCheckout() {
-const t = translations[currentLang];
-if (cart.length === 0) {
-    showNotification(t.notifications.emptyCart, 'error');
-    return;
+    const t = translations[currentLang];
+    if (cart.length === 0) {
+        showNotification(t.notifications.emptyCart, 'error');
+        return;
+    }
+    
+    toggleCart();
+    
+    const modal = document.getElementById('checkoutModal');
+    const overlay = document.getElementById('checkoutOverlay');
+    const summaryItems = document.getElementById('orderSummaryItems');
+    const orderTotal = document.getElementById('orderTotal');
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    summaryItems.innerHTML = cart.map(item => {
+        const displayInfo = item.type === 'product' ? `(${item.weight})` : `(${item.size})`;
+        return `
+            <div class="summary-item">
+                <span>${item.name} ${displayInfo} x${item.quantity}</span>
+                <span>$${(item.price * item.quantity).toFixed(2)} MXN</span>
+            </div>
+        `;
+    }).join('');
+    
+    orderTotal.textContent = `$${total.toFixed(2)} MXN`;
+    
+    modal.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-toggleCart();
-
-const modal = document.getElementById('checkoutModal');
-const overlay = document.getElementById('checkoutOverlay');
-const summaryItems = document.getElementById('orderSummaryItems');
-const orderTotal = document.getElementById('orderTotal');
-
-const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-summaryItems.innerHTML = cart.map(item => {
-    const displayInfo = item.type === 'product' ? `(${item.weight})` : `(${item.size})`;
-    return `
-        <div class="summary-item">
-            <span>${item.name} ${displayInfo} x${item.quantity}</span>
-            <span>$${(item.price * item.quantity).toFixed(2)} MXN</span>
-        </div>
-    `;
-}).join('');
-
-orderTotal.textContent = `$${total.toFixed(2)} MXN`;
-
-modal.classList.add('active');
-overlay.classList.add('active');
-document.body.style.overflow = 'hidden';
-}
 function closeCheckout() {
-const modal = document.getElementById('checkoutModal');
-const overlay = document.getElementById('checkoutOverlay');
-modal.classList.remove('active');
-overlay.classList.remove('active');
-document.body.style.overflow = '';
+    const modal = document.getElementById('checkoutModal');
+    const overlay = document.getElementById('checkoutOverlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
 }
+
 function togglePaymentForm(method) {
-const cardForm = document.getElementById('cardPaymentForm');
-const paypalForm = document.getElementById('paypalPaymentForm');
-if (method === 'card') {
-    cardForm.style.display = 'block';
-    paypalForm.style.display = 'none';
+    const cardForm = document.getElementById('cardPaymentForm');
+    const paypalForm = document.getElementById('paypalPaymentForm');
     
-    document.getElementById('cardNumber').required = true;
-    document.getElementById('cardExpiry').required = true;
-    document.getElementById('cardCVV').required = true;
-    document.getElementById('cardName').required = true;
-    document.getElementById('paypalEmail').required = false;
-} else if (method === 'paypal') {
-    cardForm.style.display = 'none';
-    paypalForm.style.display = 'block';
-    
-    document.getElementById('cardNumber').required = false;
-    document.getElementById('cardExpiry').required = false;
-    document.getElementById('cardCVV').required = false;
-    document.getElementById('cardName').required = false;
-    document.getElementById('paypalEmail').required = true;
+    if (method === 'card') {
+        cardForm.style.display = 'block';
+        paypalForm.style.display = 'none';
+        
+        document.getElementById('cardNumber').required = true;
+        document.getElementById('cardExpiry').required = true;
+        document.getElementById('cardCVV').required = true;
+        document.getElementById('cardName').required = true;
+        document.getElementById('paypalEmail').required = false;
+    } else if (method === 'paypal') {
+        cardForm.style.display = 'none';
+        paypalForm.style.display = 'block';
+        
+        document.getElementById('cardNumber').required = false;
+        document.getElementById('cardExpiry').required = false;
+        document.getElementById('cardCVV').required = false;
+        document.getElementById('cardName').required = false;
+        document.getElementById('paypalEmail').required = true;
+    }
 }
-}
+
 async function confirmOrder() {
-const t = translations[currentLang];
-const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-const name = document.getElementById('checkoutName').value.trim();
-const email = document.getElementById('checkoutEmail').value.trim();
-const phone = document.getElementById('checkoutPhone').value.trim();
-const address = document.getElementById('checkoutAddress').value.trim();
-const city = document.getElementById('checkoutCity').value.trim();
-const postal = document.getElementById('checkoutPostal').value.trim();
-
-if (!name || !email || !phone || !address || !city || !postal) {
-    showNotification(t.notifications.fillFields, 'error');
-    return;
-}
-
-if (!validateEmail(email)) {
-    showNotification(t.notifications.invalidEmail, 'error');
-    return;
-}
-
-if (paymentMethod === 'card') {
-    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-    const cardExpiry = document.getElementById('cardExpiry').value;
-    const cardCVV = document.getElementById('cardCVV').value;
-    const cardName = document.getElementById('cardName').value.trim();
+    const t = translations[currentLang];
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    const name = document.getElementById('checkoutName').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+    const address = document.getElementById('checkoutAddress').value.trim();
+    const city = document.getElementById('checkoutCity').value.trim();
+    const postal = document.getElementById('checkoutPostal').value.trim();
     
-    if (!cardNumber || !cardExpiry || !cardCVV || !cardName) {
+    if (!name || !email || !phone || !address || !city || !postal) {
         showNotification(t.notifications.fillFields, 'error');
         return;
     }
     
-    if (cardNumber.length < 13) {
+    if (!validateEmail(email)) {
         showNotification(t.notifications.invalidEmail, 'error');
         return;
     }
-} else if (paymentMethod === 'paypal') {
-    const paypalEmail = document.getElementById('paypalEmail').value.trim();
     
-    if (!paypalEmail) {
-        showNotification(t.notifications.fillFields, 'error');
-        return;
+    if (paymentMethod === 'card') {
+        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+        const cardExpiry = document.getElementById('cardExpiry').value;
+        const cardCVV = document.getElementById('cardCVV').value;
+        const cardName = document.getElementById('cardName').value.trim();
+        
+        if (!cardNumber || !cardExpiry || !cardCVV || !cardName) {
+            showNotification(t.notifications.fillFields, 'error');
+            return;
+        }
+        
+        if (cardNumber.length < 13) {
+            showNotification('Número de tarjeta inválido', 'error');
+            return;
+        }
+    } else if (paymentMethod === 'paypal') {
+        const paypalEmail = document.getElementById('paypalEmail').value.trim();
+        
+        if (!paypalEmail) {
+            showNotification(t.notifications.fillFields, 'error');
+            return;
+        }
+        
+        if (!validateEmail(paypalEmail)) {
+            showNotification(t.notifications.invalidEmail, 'error');
+            return;
+        }
     }
     
-    if (!validateEmail(paypalEmail)) {
-        showNotification(t.notifications.invalidEmail, 'error');
-        return;
-    }
-}
-
-const confirmBtn = document.querySelector('.confirm-btn');
-const originalText = confirmBtn.textContent;
-confirmBtn.disabled = true;
-confirmBtn.innerHTML = '<span class="loading-spinner"></span>Procesando...';
-
-const orderNumber = 'CE' + Date.now().toString().slice(-8);
-const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-const itemsList = cart.map(item => {
-    const displayInfo = item.type === 'product' ? `(${item.weight})` : `(${item.size})`;
-    return `• ${item.name} ${displayInfo} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)} MXN`;
-}).join('\n');
-
-const paymentInfo = paymentMethod === 'card' 
-    ? `Tarjeta: **** **** **** ${document.getElementById('cardNumber').value.replace(/\s/g, '').slice(-4)}\nTitular: ${document.getElementById('cardName').value.trim()}`
-    : `PayPal: ${document.getElementById('paypalEmail').value.trim()}`;
-
-const emailBody = `
+    const confirmBtn = document.querySelector('.confirm-btn');
+    const originalText = confirmBtn.textContent;
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML = '<span class="loading-spinner"></span>Procesando...';
+    
+    const orderNumber = 'CE' + Date.now().toString().slice(-8);
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    const itemsList = cart.map(item => {
+        const displayInfo = item.type === 'product' ? `(${item.weight})` : `(${item.size})`;
+        return `• ${item.name} ${displayInfo} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)} MXN`;
+    }).join('\n');
+    
+    const paymentInfo = paymentMethod === 'card' 
+        ? `Tarjeta: **** **** **** ${document.getElementById('cardNumber').value.replace(/\s/g, '').slice(-4)}\nTitular: ${document.getElementById('cardName').value.trim()}`
+        : `PayPal: ${document.getElementById('paypalEmail').value.trim()}`;
+    
+    const emailBody = `
 ╔═══════════════════════════════════════════╗
 CONFIRMACIÓN DE PEDIDO - CAFÉ ELEMENTOS
 ╚═══════════════════════════════════════════╝
 Número de Orden: ${orderNumber}
 Fecha: ${new Date().toLocaleDateString('es-MX', {
-weekday: 'long',
-year: 'numeric',
-month: 'long',
-day: 'numeric',
-hour: '2-digit',
-minute: '2-digit'
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
 })}
 ──────────────────────────────────────────────
 DATOS DEL CLIENTE
@@ -1109,377 +1212,379 @@ Av Paseo Tabasco 1124, Jesus Garcia
 86040 Villahermosa, Tabasco, México
 ╚═══════════════════════════════════════════╝
 `.trim();
-try {
-    await sendOrderEmail({
-        to_email: email,
-        to_name: name,
-        order_number: orderNumber,
-        email_body: emailBody
-    });
     
-    closeCheckout();
-    document.getElementById('orderNumber').textContent = orderNumber;
-    
-    const paymentMethodText = document.getElementById('paymentMethodText');
-    if (paymentMethod === 'paypal') {
-        paymentMethodText.textContent = currentLang === 'es' 
-            ? 'Tu pago ha sido procesado con PayPal. Hemos enviado la confirmación y el ticket a tu correo electrónico.'
-            : 'Your payment has been processed with PayPal. We have sent the confirmation and ticket to your email.';
-    } else {
-        paymentMethodText.textContent = t.success.emailSent;
+    try {
+        await sendOrderEmail({
+            to_email: email,
+            to_name: name,
+            order_number: orderNumber,
+            email_body: emailBody
+        });
+        
+        closeCheckout();
+        document.getElementById('orderNumber').textContent = orderNumber;
+        
+        const paymentMethodText = document.getElementById('paymentMethodText');
+        if (paymentMethod === 'paypal') {
+            paymentMethodText.textContent = currentLang === 'es' 
+                ? 'Tu pago ha sido procesado con PayPal. Hemos enviado la confirmación y el ticket a tu correo electrónico.'
+                : 'Your payment has been processed with PayPal. We have sent the confirmation and ticket to your email.';
+        } else {
+            paymentMethodText.textContent = t.success.emailSent;
+        }
+        
+        const successModal = document.getElementById('successModal');
+        const successOverlay = document.getElementById('successOverlay');
+        successModal.classList.add('active');
+        successOverlay.classList.add('active');
+        
+        cart = [];
+        updateCart();
+        document.getElementById('checkoutForm').reset();
+        
+    } catch (error) {
+        console.error('Error enviando email:', error);
+        showNotification(t.notifications.orderError, 'error');
+    } finally {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = originalText;
     }
-    
-    const successModal = document.getElementById('successModal');
-    const successOverlay = document.getElementById('successOverlay');
-    successModal.classList.add('active');
-    successOverlay.classList.add('active');
-    
-    cart = [];
-    updateCart();
-    document.getElementById('checkoutForm').reset();
-    
-} catch (error) {
-    console.error('Error enviando email:', error);
-    showNotification(t.notifications.orderError, 'error');
-} finally {
-    confirmBtn.disabled = false;
-    confirmBtn.textContent = originalText;
-}
-}
-async function sendOrderEmail(params) {
-if (EMAILJS_SERVICE_ID === 'service_xxxxxxx') {
-console.warn('EmailJS no está configurado. Mostrando email en consola:');
-console.log('╔═══════════════════════════════════════════╗');
-console.log('TICKET DE COMPRA - SIMULACIÓN');
-console.log('╚═══════════════════════════════════════════╝');
-console.log('Para:', params.to_email);
-console.log('Nombre:', params.to_name);
-console.log('Orden:', params.order_number);
-console.log('──────────────────────────────────────────────');
-console.log(params.email_body);
-console.log('╚═══════════════════════════════════════════╝');
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    return { status: 200 };
 }
 
-return emailjs.send(
-    EMAILJS_SERVICE_ID,
-    EMAILJS_TEMPLATE_ID,
-    params,
-    EMAILJS_PUBLIC_KEY
-);
+async function sendOrderEmail(params) {
+    if (EMAILJS_SERVICE_ID === 'service_xxxxxxx') {
+        console.warn('EmailJS no está configurado. Mostrando email en consola:');
+        console.log('╔═══════════════════════════════════════════╗');
+        console.log('TICKET DE COMPRA - SIMULACIÓN');
+        console.log('╚═══════════════════════════════════════════╝');
+        console.log('Para:', params.to_email);
+        console.log('Nombre:', params.to_name);
+        console.log('Orden:', params.order_number);
+        console.log('──────────────────────────────────────────────');
+        console.log(params.email_body);
+        console.log('╚═══════════════════════════════════════════╝');
+        
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        return { status: 200 };
+    }
+    
+    return emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        params,
+        EMAILJS_PUBLIC_KEY
+    );
 }
+
 function closeSuccess() {
-const modal = document.getElementById('successModal');
-const overlay = document.getElementById('successOverlay');
-modal.classList.remove('active');
-overlay.classList.remove('active');
-document.body.style.overflow = '';
-showPage('inicio');
+    const modal = document.getElementById('successModal');
+    const overlay = document.getElementById('successOverlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    showPage('inicio');
 }
+
 // ============================================
 // NEWSLETTER Y CONTACTO
 // ============================================
 function subscribeNewsletter() {
-const t = translations[currentLang];
-const emailInput = document.getElementById('newsletterEmail');
-const email = emailInput.value.trim();
-if (!email) {
-    showNotification(t.notifications.fillFields, 'error');
-    return;
+    const t = translations[currentLang];
+    const emailInput = document.getElementById('newsletterEmail');
+    const email = emailInput.value.trim();
+    
+    if (!email) {
+        showNotification(t.notifications.fillFields, 'error');
+        return;
+    }
+    
+    if (!validateEmail(email)) {
+        showNotification(t.notifications.invalidEmail, 'error');
+        return;
+    }
+    
+    showNotification(t.notifications.newsletterSuccess, 'success');
+    emailInput.value = '';
 }
 
-if (!validateEmail(email)) {
-    showNotification(t.notifications.invalidEmail, 'error');
-    return;
-}
-
-showNotification(t.notifications.newsletterSuccess, 'success');
-emailInput.value = '';
-}
 function sendContact() {
-const t = translations[currentLang];
-const name = document.getElementById('contactName')?.value.trim();
-const email = document.getElementById('contactEmail')?.value.trim();
-const message = document.getElementById('contactMessage')?.value.trim();
-if (!name || !email || !message) {
-    showNotification(t.notifications.fillFields, 'error');
-    return;
+    const t = translations[currentLang];
+    const name = document.getElementById('contactName')?.value.trim();
+    const lastName = document.getElementById('contactLastName')?.value.trim();
+    const email = document.getElementById('contactEmail')?.value.trim();
+    const phone = document.getElementById('contactPhone')?.value.trim();
+    const message = document.getElementById('contactMessage')?.value.trim();
+    
+    if (!name || !email || !message) {
+        showNotification(t.notifications.fillFields, 'error');
+        return;
+    }
+    
+    if (!validateEmail(email)) {
+        showNotification(t.notifications.invalidEmail, 'error');
+        return;
+    }
+    
+    showNotification(t.notifications.contactSuccess, 'success');
+    
+    // Limpiar formulario
+    if (document.getElementById('contactName')) document.getElementById('contactName').value = '';
+    if (document.getElementById('contactLastName')) document.getElementById('contactLastName').value = '';
+    if (document.getElementById('contactEmail')) document.getElementById('contactEmail').value = '';
+    if (document.getElementById('contactPhone')) document.getElementById('contactPhone').value = '';
+    if (document.getElementById('contactMessage')) document.getElementById('contactMessage').value = '';
 }
 
-if (!validateEmail(email)) {
-    showNotification(t.notifications.invalidEmail, 'error');
-    return;
-}
-
-showNotification(t.notifications.contactSuccess, 'success');
-
-if (document.getElementById('contactName')) document.getElementById('contactName').value = '';
-if (document.getElementById('contactLastName')) document.getElementById('contactLastName').value = '';
-if (document.getElementById('contactEmail')) document.getElementById('contactEmail').value = '';
-if (document.getElementById('contactPhone')) document.getElementById('contactPhone').value = '';
-if (document.getElementById('contactMessage')) document.getElementById('contactMessage').value = '';
-}
 // ============================================
 // CHAT
 // ============================================
 function toggleChat() {
-const chatButton = document.getElementById('chatButton');
-const chatWindow = document.getElementById('chatWindow');
-if (chatWindow.classList.contains('active')) {
-    chatWindow.classList.remove('active');
-    chatButton.style.display = 'flex';
-} else {
-    chatWindow.classList.add('active');
-    chatButton.style.display = 'none';
-}
-}
-function sendChatMessage() {
-const input = document.getElementById('chatInput');
-const message = input.value.trim();
-if (!message) return;
-
-const messagesContainer = document.getElementById('chatMessages');
-
-const messageDiv = document.createElement('div');
-messageDiv.className = 'chat-message sent';
-messageDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
-messagesContainer.appendChild(messageDiv);
-
-input.value = '';
-messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-setTimeout(() => {
-    const t = translations[currentLang];
-    const responses = [
-        currentLang === 'es' ? '¡Gracias por tu mensaje! Un representante te atenderá pronto.' : 'Thanks for your message! A representative will assist you soon.',
-        currentLang === 'es' ? '¿Te gustaría conocer nuestros productos destacados?' : 'Would you like to know our featured products?',
-        currentLang === 'es' ? 'Estamos aquí para ayudarte. ¿En qué más puedo asistirte?' : 'We are here to help. How else can I assist you?',
-        currentLang === 'es' ? '¡Excelente pregunta! Déjame verificar esa información para ti.' : 'Excellent question! Let me verify that information for you.'
-    ];
-    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
     
-    const responseDiv = document.createElement('div');
-    responseDiv.className = 'chat-message received';
-    responseDiv.innerHTML = `<p>${randomResponse}</p>`;
-    messagesContainer.appendChild(responseDiv);
+    if (chatWindow.classList.contains('active')) {
+        chatWindow.classList.remove('active');
+        chatButton.style.display = 'flex';
+    } else {
+        chatWindow.classList.add('active');
+        chatButton.style.display = 'none';
+    }
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+    
+    const messagesContainer = document.getElementById('chatMessages');
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chat-message sent';
+    messageDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
+    messagesContainer.appendChild(messageDiv);
+    
+    input.value = '';
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}, 1500);
+    
+    setTimeout(() => {
+        const t = translations[currentLang];
+        const responses = [
+            currentLang === 'es' ? '¡Gracias por tu mensaje! Un representante te atenderá pronto.' : 'Thanks for your message! A representative will assist you soon.',
+            currentLang === 'es' ? '¿Te gustaría conocer nuestros productos destacados?' : 'Would you like to know our featured products?',
+            currentLang === 'es' ? 'Estamos aquí para ayudarte. ¿En qué más puedo asistirte?' : 'We are here to help. How else can I assist you?',
+            currentLang === 'es' ? '¡Excelente pregunta! Déjame verificar esa información para ti.' : 'Excellent question! Let me verify that information for you.'
+        ];
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        
+        const responseDiv = document.createElement('div');
+        responseDiv.className = 'chat-message received';
+        responseDiv.innerHTML = `<p>${randomResponse}</p>`;
+        messagesContainer.appendChild(responseDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 1500);
 }
+
 function handleChatEnter(event) {
-if (event.key === 'Enter') {
-sendChatMessage();
+    if (event.key === 'Enter') {
+        sendChatMessage();
+    }
 }
-}
+
 // ============================================
 // BÚSQUEDA
 // ============================================
 function performSearch() {
-const query = document.getElementById('searchInput').value.trim().toLowerCase();
-if (query) {
-searchProducts(query);
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (query) {
+        searchProducts(query);
+    }
 }
-}
+
 function handleSearch(event) {
-if (event.key === 'Enter') {
-performSearch();
+    if (event.key === 'Enter') {
+        performSearch();
+    }
 }
-}
+
 function performMainSearch() {
-const query = document.getElementById('mainSearchInput').value.trim().toLowerCase();
-if (query) {
-searchProducts(query);
+    const query = document.getElementById('mainSearchInput').value.trim().toLowerCase();
+    if (query) {
+        searchProducts(query);
+    }
 }
-}
+
 function handleMainSearch(event) {
-if (event.key === 'Enter') {
-performMainSearch();
+    if (event.key === 'Enter') {
+        performMainSearch();
+    }
 }
-}
+
 function searchProducts(query) {
-const allItems = [
-...products.map(p => ({ ...p, type: 'coffee' })),
-...Object.values(menuItems).flat().map(m => ({ ...m, type: 'drink' }))
-];
-const results = allItems.filter(item => 
-    item.name.toLowerCase().includes(query) ||
-    (item.origin && item.origin.toLowerCase().includes(query))
-);
-
-displaySearchResults(results);
+    const allItems = [
+        ...products.map(p => ({ ...p, type: 'coffee' })),
+        ...Object.values(menuItems).flat().map(m => ({ ...m, type: 'drink' }))
+    ];
+    
+    const results = allItems.filter(item => 
+        item.name.toLowerCase().includes(query) ||
+        (item.origin && item.origin.toLowerCase().includes(query))
+    );
+    
+    displaySearchResults(results);
 }
+
 function filterByCategory(category) {
-const buttons = document.querySelectorAll('.category-btn');
-buttons.forEach(btn => btn.classList.remove('active'));
-event.target.classList.add('active');
-if (category === 'all') {
-    document.getElementById('searchResults').innerHTML = '';
-    return;
+    const buttons = document.querySelectorAll('.category-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    if (category === 'all') {
+        document.getElementById('searchResults').innerHTML = '';
+        return;
+    }
+    
+    const allItems = [
+        ...products.map(p => ({ ...p, type: 'coffee' })),
+        ...Object.values(menuItems).flat().map(m => ({ ...m, type: 'drink' }))
+    ];
+    
+    const results = allItems.filter(item => 
+        (category === 'coffee' && item.type === 'coffee') ||
+        (category === 'drinks' && item.type === 'drink')
+    );
+    
+    displaySearchResults(results);
 }
 
-const allItems = [
-    ...products.map(p => ({ ...p, type: 'coffee' })),
-    ...Object.values(menuItems).flat().map(m => ({ ...m, type: 'drink' }))
-];
-
-const results = allItems.filter(item => 
-    (category === 'coffee' && item.type === 'coffee') ||
-    (category === 'drinks' && item.type === 'drink')
-);
-
-displaySearchResults(results);
-}
 function displaySearchResults(results) {
-const container = document.getElementById('searchResults');
-const t = translations[currentLang];
-if (results.length === 0) {
+    const container = document.getElementById('searchResults');
+    const t = translations[currentLang];
+    
+    if (results.length === 0) {
+        container.innerHTML = `
+            <div class="no-results">
+                <p>${currentLang === 'es' ? 'No se encontraron resultados' : 'No results found'}</p>
+                <p>${currentLang === 'es' ? 'Intenta con otra búsqueda' : 'Try another search'}</p>
+            </div>
+        `;
+        return;
+    }
+    
     container.innerHTML = `
-        <div class="no-results">
-            <p>${currentLang === 'es' ? 'No se encontraron resultados' : 'No results found'}</p>
-            <p>${currentLang === 'es' ? 'Intenta con otra búsqueda' : 'Try another search'}</p>
+        <div class="search-results">
+            <div class="search-results-header">
+                <h3>${currentLang === 'es' ? 'Resultados de búsqueda' : 'Search results'} (${results.length})</h3>
+            </div>
+            <div class="search-results-grid">
+                ${results.map(item => createSearchResultCard(item)).join('')}
+            </div>
         </div>
     `;
-    return;
 }
 
-container.innerHTML = `
-    <div class="search-results">
-        <div class="search-results-header">
-            <h3>${currentLang === 'es' ? 'Resultados de búsqueda' : 'Search results'} (${results.length})</h3>
-        </div>
-        <div class="search-results-grid">
-            ${results.map(item => createSearchResultCard(item)).join('')}
-        </div>
-    </div>
-`;
-}
 function createSearchResultCard(item) {
-const isCoffee = item.type === 'coffee';
-const price = isCoffee ? item.prices['1/4'] : (item.prices ? item.prices[Object.keys(item.prices)[0]] : item.price);
-return `
-    <div class="search-result-card ${isCoffee ? 'coffee-card' : 'drink-card'}" onclick="${isCoffee ? `showPage('productos')` : `showPage('menu')`}">
-        ${isCoffee ? `
-            <div class="result-image">
-                <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:2.5rem\\'>☕</div>'">
+    const isCoffee = item.type === 'coffee';
+    const price = isCoffee ? item.prices['1/4'] : (item.prices ? item.prices[Object.keys(item.prices)[0]] : item.price);
+    
+    return `
+        <div class="search-result-card ${isCoffee ? 'coffee-card' : 'drink-card'}" onclick="${isCoffee ? `showPage('productos')` : `showPage('menu')`}">
+            ${isCoffee ? `
+                <div class="result-image">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size:2.5rem\\'>☕</div>'">
+                </div>
+            ` : `
+                <div class="result-image">
+                    <div style="font-size:2.5rem;">☕</div>
+                </div>
+            `}
+            <div class="result-info">
+                <h4>${item.name}</h4>
+                ${isCoffee ? `<div class="result-origin">${item.origin}</div>` : `<div class="result-type">${currentLang === 'es' ? 'Bebida' : 'Drink'}</div>`}
+                <div class="result-price">$${price}.00 MXN</div>
+                <button class="result-add-btn" onclick="event.stopPropagation(); ${isCoffee ? `addToCart(${item.id})` : `addMenuToCart(${item.id})`}">
+                    ${currentLang === 'es' ? '+ Agregar' : '+ Add'}
+                </button>
             </div>
-        ` : `
-            <div class="result-image">
-                <div style="font-size:2.5rem;">☕</div>
-            </div>
-        `}
-        <div class="result-info">
-            <h4>${item.name}</h4>
-            ${isCoffee ? `<div class="result-origin">${item.origin}</div>` : `<div class="result-type">${currentLang === 'es' ? 'Bebida' : 'Drink'}</div>`}
-            <div class="result-price">$${price}.00 MXN</div>
-            <button class="result-add-btn" onclick="event.stopPropagation(); ${isCoffee ? `addToCart(${item.id})` : `addMenuToCart(${item.id})`}">
-                ${currentLang === 'es' ? '+ Agregar' : '+ Add'}
-            </button>
         </div>
-    </div>
-`;
+    `;
 }
+
 // ============================================
 // UTILIDADES
 // ============================================
 function validateEmail(email) {
-const re = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
-return re.test(email);
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
 }
-function escapeHtml(text) {
-const div = document.createElement('div');
-div.textContent = text;
-return div.innerHTML;
-}
-function showNotification(message, type = 'success') {
-const existing = document.querySelectorAll('.notification');
-existing.forEach(n => n.remove());
-const notification = document.createElement('div');
-notification.className = `notification ${type}`;
-notification.textContent = message;
-document.body.appendChild(notification);
 
-setTimeout(() => {
-    notification.style.opacity = '0';
-        setTimeout(() => notification.remove(), 300);
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showNotification(message, type = 'success') {
+    const existing = document.querySelectorAll('.notification');
+    existing.forEach(n => n.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
     }, 3000);
 }
 
-// ============================================
-// FORMATEO DE TARJETA
-// ============================================
 function setupCardFormatting() {
-    const cardNumber = document.getElementById('cardNumber');
-    const cardExpiry = document.getElementById('cardExpiry');
-    const cardCVV = document.getElementById('cardCVV');
-
-    if (cardNumber) {
-        cardNumber.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s/g, '');
-            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-            e.target.value = formattedValue;
+    // Formateo de tarjeta de crédito
+    const cardNumberInput = document.getElementById('cardNumber');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let matches = value.match(/\d{4,16}/g);
+            let match = matches && matches[0] || '';
+            let parts = [];
+            
+            for (let i = 0, len = match.length; i < len; i += 4) {
+                parts.push(match.substring(i, i + 4));
+            }
+            
+            if (parts.length) {
+                e.target.value = parts.join(' ');
+            } else {
+                e.target.value = value;
+            }
         });
     }
-
-    if (cardExpiry) {
-        cardExpiry.addEventListener('input', function(e) {
+    
+    // Formateo de fecha de vencimiento
+    const cardExpiryInput = document.getElementById('cardExpiry');
+    if (cardExpiryInput) {
+        cardExpiryInput.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length >= 2) {
-                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
             }
-            e.target.value = value;
         });
     }
-
-    if (cardCVV) {
-        cardCVV.addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+    
+    // Solo números para CVV
+    const cardCVVInput = document.getElementById('cardCVV');
+    if (cardCVVInput) {
+        cardCVVInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
         });
     }
 }
 
 // ============================================
-// TEMPORIZADOR DE PROMOCIÓN
+// INICIALIZACIÓN EMAILJS
 // ============================================
-function startPromotionTimer() {
-    const timerElement = document.getElementById('promotionTimer');
-    if (!timerElement) return;
-
-    const endTime = new Date();
-    endTime.setHours(23, 59, 59, 999);
-
-    function updateTimer() {
-        const now = new Date();
-        const diff = endTime - now;
-
-        if (diff <= 0) {
-            timerElement.textContent = currentLang === 'es' 
-                ? 'La promoción ha terminado' 
-                : 'Promotion has ended';
-            return;
-        }
-
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        const t = translations[currentLang];
-        timerElement.textContent = `${t.welcome.promotion.timer} ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-
-    updateTimer();
-    setInterval(updateTimer, 1000);
-}
-
-// Iniciar el temporizador cuando se carga la página
-document.addEventListener('DOMContentLoaded', function() {
-    startPromotionTimer();
-});
-
-// ============================================
-// INICIALIZACIÓN DE EMAILJS
-// ============================================
-(function() {
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-    }
-})();
+emailjs.init(EMAILJS_PUBLIC_KEY);
