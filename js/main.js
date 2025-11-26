@@ -637,8 +637,7 @@ function selectWeight(productId, weight, containerId) {
 }
 
 // ============================================
-// SELECCIÓN DE TA
-MAÑO (MENÚ)
+// SELECCIÓN DE TAMAÑO (MENÚ)
 // ============================================
 function selectMenuSize(itemId, size) {
 selectedMenuSizes[itemId] = size;
